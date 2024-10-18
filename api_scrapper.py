@@ -32,13 +32,13 @@ def getTokenSbxClientCredentials(cc):
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
-    print('token request outcome: ' + str(response.status_code))
+    #print('token request outcome: ' + str(response.status_code))
 
     token = json.loads(response.text)['access_token']
     return token
 
 token = getTokenSbxClientCredentials(cc)
-print(token)
+#print(token)
 
 def callApiSbx(basepath, endpoint, token, method="GET", query="", CAIDRequired=False, CAID="", printBody=False):
     url = "https://api-sandbox.commerzbank.com" + basepath + endpoint
@@ -60,7 +60,10 @@ def callApiSbx(basepath, endpoint, token, method="GET", query="", CAIDRequired=F
     return response
 
 
-print(callApiSbx("/payments-api/13/v1", "/healthcheck", token))
+print(callApiSbx("/accounts-api/21/v1/", "/accounts/130471100000EUR" , token=token, printBody=True))
+
+
+
 
 
 
