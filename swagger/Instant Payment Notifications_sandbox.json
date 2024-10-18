@@ -1,0 +1,969 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Instant Payment Notifications",
+    "description": "Webhook API for Instant Payment push notifications. If you want to receive webhook push notifications, you can subscribe with your iban and the pushUri.",
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://api-sandbox.commerzbank.com/payments-api/12/v1"
+    }
+  ],
+  "paths": {
+    "/subscriptions/instant-payment-notifications": {
+      "post": {
+        "summary": "Initiate a subscription",
+        "description": "With this endpoint you can create a subscription. Optionally you can directly add one or more subscriptionEntries.\nA consumer can create only one subscription. \nValid ibans for SubscriptionEntrys are: \n- DE36410400180500014680\n- DE28500400000255744510\n- DE12550400200055700597",
+        "operationId": "postSubscription",
+        "tags": [
+          "subscription"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PostSubscription"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/PostSubscriptionResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/ProblemConflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      }
+    },
+    "/subscriptions/instant-payment-notifications/{subscription-id}": {
+      "get": {
+        "summary": "",
+        "description": "With this endpoint you can receive the subscription object with the given id. It includes all its subscriptionEntries.",
+        "operationId": "getSubscription",
+        "tags": [
+          "subscription"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/subscription-id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetSubscriptionResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProblemNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "description": "With this endpoint you can set the status of a subscription to `terminatedByTpp`. All subscriptionEntries belonging to this subscription will keep their status.",
+        "operationId": "deleteSubscription",
+        "tags": [
+          "subscription"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/subscription-id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProblemNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      }
+    },
+    "/subscriptions/instant-payment-notifications/{subscription-id}/status": {
+      "get": {
+        "summary": "",
+        "description": "With this endpoint you can receive the status of the subscription with the given id.",
+        "operationId": "getSubscriptionStatus",
+        "tags": [
+          "subscription"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/subscription-id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetSubscriptionStatusResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProblemNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      }
+    },
+    "/subscriptions/instant-payment-notifications/{subscription-id}/subscription-entries": {
+      "post": {
+        "summary": "",
+        "description": "With this endpoint you can create a subscriptionEntry for an existing subscription. \nValid ibans are: \n- DE36410400180500014680\n- DE28500400000255744510\n- DE12550400200055700597",
+        "operationId": "postSubscriptionEntry",
+        "tags": [
+          "subscriptionEntry"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/subscription-id"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/PostSubscriptionEntryResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/ProblemConflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        },
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PostSubscriptionEntry"
+        }
+      }
+    },
+    "/subscriptions/instant-payment-notifications/{subscription-id}/subscription-entries/{subscription-entry-id}": {
+      "get": {
+        "summary": "",
+        "description": "With this endpoint you can receive the subscriptionEntry object with the given id.",
+        "operationId": "getSubscriptionEntry",
+        "tags": [
+          "subscriptionEntry"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/subscription-id"
+          },
+          {
+            "$ref": "#/components/parameters/SubscriptionEntryId"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetSubscriptionEntryResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProblemNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "description": "With this endpoint you can set the status of a subscriptionEntry to `terminatedByTpp`.",
+        "operationId": "deleteSubscriptionEntry",
+        "tags": [
+          "subscriptionEntry"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/subscription-id"
+          },
+          {
+            "$ref": "#/components/parameters/SubscriptionEntryId"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProblemNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      }
+    },
+    "/subscriptions/instant-payment-notifications/{subscription-id}/subscription-entries/{subscription-entry-id}/status": {
+      "get": {
+        "summary": "",
+        "description": "With this endpoint you can receive the status of the subscriptionEntry with the given id.",
+        "operationId": "getSubscriptionEntryStatus",
+        "tags": [
+          "subscriptionEntry"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/subscription-id"
+          },
+          {
+            "$ref": "#/components/parameters/SubscriptionEntryId"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetSubscriptionEntryStatusResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProblemNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      }
+    },
+    "/subscriptions/instant-payment-notifications/certificates": {
+      "post": {
+        "summary": "Upload a new certificate",
+        "description": "Before creating a subscription, you need to provide your public server certificate in pem format using this method. By doing this the Commerzbank systems only trust servers with the exact same certificate provided by you, securing that the messages are only delivered to you. Please remember to update your new certificate via the same method before your certificate expires. We can save new certificates in advance before they get activated.",
+        "operationId": "postCertificates",
+        "tags": [
+          "certificate"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PostCertificate"
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/ProblemConflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      }
+    },
+    "/healthcheck": {
+      "get": {
+        "summary": "",
+        "description": "With this endpoint you can check if the API is currently available.",
+        "operationId": "getHealthcheck",
+        "tags": [
+          "health"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ProblemBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ProblemUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/ProblemForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProblemNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ProblemInternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "name": "Authorization",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^Bearer [A-Za-z0-9-._~+\\/]+=*$",
+          "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        },
+        "description": "Authorisation string for this request. Contains a token with the identification of the subject who initiates the operation."
+      },
+      "subscription-id": {
+        "name": "subscription-id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "123789"
+        },
+        "description": "SubscriptionId as received in the body of a (positive) postSubscription response."
+      },
+      "SubscriptionEntryId": {
+        "name": "subscription-entry-id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "987321"
+        },
+        "description": "SubscriptionEntryId as received in the body of a (positive) postSubscription or postSubscriptionEntry response."
+      }
+    },
+    "responses": {
+      "GetSubscriptionResponse": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "GetSubscriptionResponse",
+              "allOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "required": [
+                    "subscriptionStatus",
+                    "subscriptionEntries"
+                  ],
+                  "properties": {
+                    "subscriptionStatus": {
+                      "$ref": "#/components/schemas/SubscriptionStatus"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "subscriptionEntries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "apiClientPrimaryPushUri",
+                          "iban"
+                        ],
+                        "properties": {
+                          "subscriptionEntryId": {
+                            "$ref": "#/components/schemas/SubscriptionEntryId"
+                          },
+                          "iban": {
+                            "$ref": "#/components/schemas/Iban"
+                          },
+                          "apiClientPrimaryPushUri": {
+                            "$ref": "#/components/schemas/PushUri"
+                          },
+                          "apiClientSecondaryPushUri": {
+                            "$ref": "#/components/schemas/PushUri"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "GetSubscriptionEntryResponse": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "subscriptionStatus",
+                "apiClientPrimaryPushUri",
+                "iban"
+              ],
+              "properties": {
+                "subscriptionStatus": {
+                  "$ref": "#/components/schemas/SubscriptionStatus"
+                },
+                "iban": {
+                  "$ref": "#/components/schemas/Iban"
+                },
+                "apiClientPrimaryPushUri": {
+                  "$ref": "#/components/schemas/PushUri"
+                },
+                "apiClientSecondaryPushUri": {
+                  "$ref": "#/components/schemas/PushUri"
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetSubscriptionStatusResponse": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "subscriptionStatus"
+              ],
+              "properties": {
+                "subscriptionStatus": {
+                  "$ref": "#/components/schemas/SubscriptionStatus"
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetSubscriptionEntryStatusResponse": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "subscriptionEntryStatus"
+              ],
+              "properties": {
+                "subscriptionEntryStatus": {
+                  "$ref": "#/components/schemas/SubscriptionEntryStatus"
+                }
+              }
+            }
+          }
+        }
+      },
+      "PostSubscriptionResponse": {
+        "description": "Created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "subscriptionId",
+                "subscriptionStatus",
+                "_links"
+              ],
+              "properties": {
+                "subscriptionId": {
+                  "$ref": "#/components/schemas/SubscriptionId"
+                },
+                "subscriptionStatus": {
+                  "$ref": "#/components/schemas/SubscriptionStatus"
+                },
+                "_links": {
+                  "$ref": "#/components/schemas/LinksSubscription"
+                }
+              }
+            }
+          }
+        }
+      },
+      "PostSubscriptionEntryResponse": {
+        "description": "Created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "subscriptionEntryId",
+                "subscriptionEntryStatus",
+                "_links"
+              ],
+              "properties": {
+                "subscriptionEntryId": {
+                  "$ref": "#/components/schemas/SubscriptionEntryId"
+                },
+                "subscriptionEntryStatus": {
+                  "$ref": "#/components/schemas/SubscriptionEntryStatus"
+                },
+                "_links": {
+                  "$ref": "#/components/schemas/LinksSubscriptionEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProblemBadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            },
+            "examples": {
+              "example": {
+                "value": {
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "Input value not valid."
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProblemUnauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            },
+            "examples": {
+              "example": {
+                "value": {
+                  "title": "Unauthorized",
+                  "status": 401,
+                  "detail": "The request was not authenticated."
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProblemForbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            },
+            "examples": {
+              "example": {
+                "value": {
+                  "title": "Forbidden",
+                  "status": 403,
+                  "detail": "The request is not authorised for this resource."
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProblemNotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            },
+            "examples": {
+              "example": {
+                "value": {
+                  "title": "Not Found",
+                  "status": 404,
+                  "detail": "The requested resource is not found."
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProblemConflict": {
+        "description": "Conflict",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            },
+            "examples": {
+              "example": {
+                "value": {
+                  "title": "Conflict",
+                  "status": 409,
+                  "detail": "There is a conflict with an existing resource."
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProblemInternalServerError": {
+        "description": "InternalServerError",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            },
+            "examples": {
+              "example": {
+                "value": {
+                  "title": "Internal Server Error",
+                  "status": 500,
+                  "detail": "The server encountered an unexpected condition that prevented it from fulfilling the request."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "PostSubscription": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "SubscriptionRequest",
+              "allOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "required": [
+                    "subscriptionEntries"
+                  ],
+                  "properties": {
+                    "subscriptionEntries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "apiClientPrimaryPushUri",
+                          "iban"
+                        ],
+                        "properties": {
+                          "apiClientPrimaryPushUri": {
+                            "$ref": "#/components/schemas/PushUri"
+                          },
+                          "apiClientSecondaryPushUri": {
+                            "$ref": "#/components/schemas/PushUri"
+                          },
+                          "iban": {
+                            "$ref": "#/components/schemas/Iban"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "PostSubscriptionEntry": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "SubscriptionEntry",
+              "type": "object",
+              "required": [
+                "apiClientPrimaryPushUri",
+                "iban"
+              ],
+              "properties": {
+                "apiClientPrimaryPushUri": {
+                  "$ref": "#/components/schemas/PushUri"
+                },
+                "apiClientSecondaryPushUri": {
+                  "$ref": "#/components/schemas/PushUri"
+                },
+                "iban": {
+                  "$ref": "#/components/schemas/Iban"
+                }
+              }
+            }
+          }
+        }
+      },
+      "PostCertificate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "CertificatePair",
+              "type": "object",
+              "required": [
+                "hostname",
+                "certificate"
+              ],
+              "properties": {
+                "hostname": {
+                  "$ref": "#/components/schemas/Hostname"
+                },
+                "certificate": {
+                  "$ref": "#/components/schemas/Certificate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "SubscriptionId": {
+        "type": "string",
+        "title": "SubscriptionId",
+        "description": "Unique id of a subscription.",
+        "example": "4030229e-ba3a-4075-a87e-2d11efe66530"
+      },
+      "PushUri": {
+        "type": "string",
+        "title": "PushUri",
+        "example": "https://www.example-client.com/openFinance-client/1",
+        "maxLength": 512,
+        "description": "URL to which a outgoing webhook request will be sent."
+      },
+      "Iban": {
+        "type": "string",
+        "title": "Iban",
+        "pattern": "[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}",
+        "example": "DE36410400180500014680",
+        "description": "The iban for which you subscribe."
+      },
+      "SubscriptionEntryId": {
+        "type": "string",
+        "title": "SubscriptionEntryId",
+        "example": "4030229e-ba3a-4075-a87e-2d11efe66531",
+        "description": "Unique id of a subscriptionEntry."
+      },
+      "SubscriptionStatus": {
+        "type": "string",
+        "title": "SubscriptionStatus",
+        "example": "valid",
+        "description": "Status of a subscription.",
+        "enum": [
+          "valid",
+          "cancelledByAspsp",
+          "terminatedByTpp"
+        ]
+      },
+      "SubscriptionEntryStatus": {
+        "type": "string",
+        "title": "SubscriptionEntryStatus",
+        "example": "valid",
+        "description": "Status of a subscriptionEntry.",
+        "enum": [
+          "valid",
+          "serverNotReachable",
+          "cancelledByAspsp",
+          "terminatedByTpp"
+        ]
+      },
+      "LinksSubscription": {
+        "title": "LinksSubscription",
+        "type": "object",
+        "properties": {
+          "self": {
+            "$ref": "#/components/schemas/HrefType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HrefType"
+          }
+        }
+      },
+      "LinksSubscriptionEntry": {
+        "title": "LinksSubscriptionEntry",
+        "type": "object",
+        "properties": {
+          "self": {
+            "$ref": "#/components/schemas/HrefType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HrefType"
+          }
+        }
+      },
+      "HrefType": {
+        "title": "HrefType",
+        "description": "Link to a resource.",
+        "type": "object",
+        "properties": {
+          "href": {
+            "$ref": "#/components/schemas/HrefEntry"
+          }
+        }
+      },
+      "HrefEntry": {
+        "title": "HrefEntry",
+        "description": "Link to a resource.",
+        "type": "string",
+        "example": "/v1/subscriptions/instant-payment-notifications/123789"
+      },
+      "Hostname": {
+        "title": "Hostname",
+        "description": "Host URL for a certificate.",
+        "type": "string",
+        "maxLength": 256,
+        "example": "host1.net"
+      },
+      "Certificate": {
+        "title": "Certificate",
+        "description": "Public certificate valid for a given host in pem format.",
+        "type": "string",
+        "example": "cert-for-host1"
+      },
+      "Problem": {
+        "title": "Problem",
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "A short summary of the problem type, meant to be readable for engineers.",
+            "example": "Bad Request"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+            "minimum": 100,
+            "maximum": 600,
+            "exclusiveMaximum": true,
+            "example": 400
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human readable explanation specific to this occurrence of the problem.",
+            "example": "Input validation failed."
+          }
+        },
+        "description": "Standard problem object."
+      }
+    },
+    "securitySchemes": {
+      "OAuth": {
+        "type": "oauth2",
+        "description": "The tokenmanager used for external services with grant type Client Credentials.",
+        "flows": {
+          "password": {
+            "tokenUrl": "https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/token",
+            "scopes": {},
+            "refreshUrl": "https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/token"
+          },
+          "clientCredentials": {
+            "tokenUrl": "https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/token",
+            "refreshUrl": "https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  }
+}

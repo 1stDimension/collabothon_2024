@@ -1,0 +1,821 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Accounts Foreign Units Extern",
+    "description": "This Accounts Foreign Units API is for only external usage.\nThis API provides information and operations on cash accounts.",
+    "version": "1.0.2",
+    "x-summary": "This Accounts Foreign Units API is currently for external usage only.\nThis API provides information and operations on cash accounts."
+  },
+  "host": "api-sandbox.commerzbank.com",
+  "basePath": "/accounts-api/21/v1",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json; charset=utf-8"
+  ],
+  "produces": [
+    "application/json; charset=utf-8",
+    "application/problem+json; charset=utf-8"
+  ],
+  "paths": {
+    "/accounts": {
+      "get": {
+        "description": "Returns detailed contract information for a given customerid as well as the account balances.\n",
+        "operationId": "getAccountList",
+        "summary": "Reads a list of accounts with the all balances of accounts.",
+        "tags": [
+          "accounts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/authorization"
+          },
+          {
+            "$ref": "#/parameters/customerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/accountList"
+            },
+            "examples": {
+              "application/json": {
+                "accounts": [
+                  {
+                    "accountId": "130471181500EUR",
+                    "iban": "NL99COBA0987654321",
+                    "bban": null,
+                    "accountNumberInternal": "130471181500EUR",
+                    "accountNumberDisplay": "130471181500EUR",
+                    "currency": "EUR",
+                    "customerAgreementReference": null,
+                    "balances": null,
+                    "_links": null
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "invalid-params or invalid-entity",
+            "schema": {
+              "$ref": "#/definitions/validationProblem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "invalid-params or invalid-entity",
+                "status": 400
+              }
+            }
+          },
+          "404": {
+            "description": "account-not-found",
+            "schema": {
+              "$ref": "#/definitions/problem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "account-not-found",
+                "status": 404
+              }
+            }
+          },
+          "500": {
+            "description": "internal-server-error",
+            "schema": {
+              "$ref": "#/definitions/problem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "internal-server-error",
+                "status": 500
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{account-id}": {
+      "get": {
+        "description": "This GET considers 2 options to return detailed contract information for a given account.\n1. option - detailed contract information for a given account (please set the parameter '?withBalance=false')\n2. option - detailed contract informaction for a given account as well as the account balances (please set the parameter '?withBalance=true').\n",
+        "operationId": "getAccountByAccountId",
+        "summary": "Reads account details.",
+        "tags": [
+          "accounts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/authorization"
+          },
+          {
+            "$ref": "#/parameters/account-id"
+          },
+          {
+            "$ref": "#/parameters/withBalance"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/account"
+            },
+            "examples": {
+              "application/json": {
+                "accountId": "XwcvzpJ0CuJ6DCxT2BKPeA-35",
+                "iban": "NL99COBA0987654321",
+                "bban": null,
+                "accountNumberInternal": "130471181500EUR",
+                "accountNumberDisplay": "130471181500EUR",
+                "currency": "EUR",
+                "customerAgreementReference": null,
+                "productCategory": null,
+                "productVariant": null,
+                "productVariantName": null,
+                "productClassification": null,
+                "_links": {
+                  "balances": [
+                    {
+                      "balanceType": {
+                        "balanceType": "openingBooked"
+                      },
+                      "balanceAmount": {
+                        "amount": "0",
+                        "currency": "EUR"
+                      },
+                      "creditLimitIncluded": false,
+                      "referenceDate": "2019-11-13T00:00:00",
+                      "lastChangeDateTime": "2019-11-13T00:00:00"
+                    },
+                    {
+                      "balanceType": {
+                        "balanceType": "closingBooked"
+                      },
+                      "balanceAmount": {
+                        "amount": "0",
+                        "currency": "EUR"
+                      },
+                      "creditLimitIncluded": false,
+                      "referenceDate": "2019-11-13T00:00:00",
+                      "lastChangeDateTime": "2019-11-13T00:00:00"
+                    },
+                    {
+                      "balanceType": {
+                        "balanceType": "interimAvailable"
+                      },
+                      "balanceAmount": {
+                        "amount": "0",
+                        "currency": "EUR"
+                      },
+                      "creditLimitIncluded": false,
+                      "referenceDate": "2019-11-13T00:00:00",
+                      "lastChangeDateTime": "2019-11-13T00:00:00"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid-params or invalid-entity",
+            "schema": {
+              "$ref": "#/definitions/validationProblem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "invalid-params or invalid-entity",
+                "status": 400
+              }
+            }
+          },
+          "404": {
+            "description": "account-not-found",
+            "schema": {
+              "$ref": "#/definitions/problem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "account-not-found",
+                "status": 404
+              }
+            }
+          },
+          "500": {
+            "description": "internal-server-error",
+            "schema": {
+              "$ref": "#/definitions/problem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "internal-server-error",
+                "status": 500
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{account-id}/balances": {
+      "get": {
+        "description": "Returns contract information for a given account as well as the account balances.\n",
+        "operationId": "getBalancesByAccountId",
+        "summary": "Reads account balances",
+        "tags": [
+          "accounts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/authorization"
+          },
+          {
+            "$ref": "#/parameters/account-id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/accountBalances"
+            },
+            "examples": {
+              "application/json": {
+                "account": {
+                  "accountId": "XwcvzpJ0CuJ6DCxT2BKPeA-35",
+                  "iban": "NL99COBA0987654321",
+                  "currency": "EUR",
+                  "_links": null
+                },
+                "balances": [
+                  {
+                    "balanceType": {
+                      "balanceType": "openingBooked"
+                    },
+                    "balanceAmount": {
+                      "amount": "0",
+                      "currency": "EUR"
+                    },
+                    "creditLimitIncluded": false,
+                    "referenceDate": "2020-03-31T00:00:00",
+                    "lastChangeDateTime": "2020-03-31T00:00:00"
+                  },
+                  {
+                    "balanceType": {
+                      "balanceType": "closingBooked"
+                    },
+                    "balanceAmount": {
+                      "amount": "0",
+                      "currency": "EUR"
+                    },
+                    "creditLimitIncluded": false,
+                    "referenceDate": "2020-03-31T00:00:00",
+                    "lastChangeDateTime": "2020-03-31T00:00:00"
+                  },
+                  {
+                    "balanceType": {
+                      "balanceType": "interimAvailable"
+                    },
+                    "balanceAmount": {
+                      "amount": "0",
+                      "currency": "EUR"
+                    },
+                    "creditLimitIncluded": false,
+                    "referenceDate": "2020-03-31T00:00:00",
+                    "lastChangeDateTime": "2020-03-31T00:00:00"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "invalid-params or invalid-entity",
+            "schema": {
+              "$ref": "#/definitions/validationProblem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "invalid-params or invalid-entity",
+                "status": 400
+              }
+            }
+          },
+          "404": {
+            "description": "account-not-found",
+            "schema": {
+              "$ref": "#/definitions/problem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "account-not-found",
+                "status": 404
+              }
+            }
+          },
+          "500": {
+            "description": "internal-server-error",
+            "schema": {
+              "$ref": "#/definitions/problem"
+            },
+            "examples": {
+              "application/json": {
+                "title": "internal-server-error",
+                "status": 500
+              }
+            }
+          }
+        }
+      }
+    },
+    "/info": {
+      "get": {
+        "description": "Returns detailed information for the products API Foreign Units.\n",
+        "operationId": "retrieveApplicationInfo",
+        "summary": "Returns general status information for this service.",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApplicationInfoDTO"
+            },
+            "examples": {
+              "application/json": {
+                "productName": "Accounts - FU API",
+                "productNumber": "01-44-54",
+                "productVersion": "21.5.12-SNAPSHOT",
+                "groupId": "com.commerzbank.openbanking",
+                "artifactId": "application",
+                "buildProfile": "war",
+                "buildVersion": "21.5.12-SNAPSHOT",
+                "buildTimestamp": "2021-06-24 10:08:37",
+                "hostName": "phxjbd01",
+                "serverMachineName": "phxjbd01.zit.commerzbank.com"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "account-id": {
+      "name": "account-id",
+      "in": "path",
+      "description": "ID of requested account.\nIt must contain either an account number plus currency with format pattern '^[0-9]{12}[A-Z]{3}$' \nor an iban plus optional underscore and currency with format pattern '^[A-Z]{2}\\d{2}[a-zA-Z0-9]{1,30}(_[A-Z]{3})?$'/nand needs to be pseudonymised./n/nIBAN is only allowed for European accounts as Asian and American Accounts do not have an IBAN.",
+      "required": true,
+      "type": "string",
+      "pattern": "^[^\\s,]+$",
+      "x-example": "130471100000EUR"
+    },
+    "customerId": {
+      "name": "customerId",
+      "in": "query",
+      "description": "CustomerId with format pattern ^[0-9]{10}$ always 10 digits (digit 1-3= branchid followed by 7-digit customer number)\nthis field to be pseudonymised.",
+      "required": true,
+      "type": "string",
+      "pattern": "^[0-9]{10}$",
+      "x-example": 1304711000
+    },
+    "withBalance": {
+      "name": "withBalance",
+      "in": "query",
+      "description": "'withBalance=false' -> for detailed contract information for a given account.\n\n'withBalance=true' -> for detailed contract informaction for a given account as well as the account balances.",
+      "required": false,
+      "type": "boolean"
+    },
+    "authorization": {
+      "name": "Authorization",
+      "in": "header",
+      "description": "OAuth compliant authorization string.",
+      "required": true,
+      "pattern": "^Bearer [A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$",
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "account": {
+      "description": "An account is a particular view (projection resource) of an underlying customer contract. It provides basic product information and a set of commonly used data related to transactions and balances.",
+      "type": "object",
+      "required": [
+        "accountId",
+        "iban",
+        "bban",
+        "accountNumberInternal",
+        "accountNumberDisplay",
+        "currency",
+        "customerAgreementReference"
+      ],
+      "properties": {
+        "accountId": {
+          "description": "Account identifier. The value is pseudonymised.",
+          "type": "string",
+          "maxLength": 35
+        },
+        "iban": {
+          "description": "IBAN for this account.",
+          "type": "string",
+          "pattern": "^[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}$"
+        },
+        "bban": {
+          "description": "ISO 20022 Basic Bank Account Number (BBAN). Corresponds to iban without country code (digits 1-2) and checksum (digits 3-4).",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9]{1,30}$"
+        },
+        "accountNumberInternal": {
+          "description": "Account number, internal format. This is the 'technical' account number representation and is to be used for internal storage and communication between applications.",
+          "type": "string",
+          "pattern": "^[0-9]{12}$"
+        },
+        "accountNumberDisplay": {
+          "description": "Account number, display format. This is the representation of the account number from the customer's point of view and is to be used for display purposes or rendering documents.",
+          "type": "string",
+          "pattern": "^[0-9]{12,13}$"
+        },
+        "currency": {
+          "description": "ISO 4217 currency code.",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "customerAgreementReference": {
+          "$ref": "#/definitions/customerAgreementReference"
+        },
+        "balances": {
+          "$ref": "#/definitions/balanceList"
+        },
+        "_links": {
+          "properties": {
+            "balances": {
+              "type": "object",
+              "properties": {
+                "href": {
+                  "description": "Link to the balances of this account.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "accountBalances": {
+      "description": "List of available balances for a given account.",
+      "type": "object",
+      "required": [
+        "balances"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/accountReference"
+        },
+        "balances": {
+          "$ref": "#/definitions/balanceList"
+        }
+      }
+    },
+    "accountList": {
+      "description": "List of all available accounts.",
+      "type": "object",
+      "required": [
+        "accounts"
+      ],
+      "properties": {
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/account"
+          }
+        }
+      }
+    },
+    "accountReference": {
+      "description": "Reference to the account.",
+      "type": "object",
+      "required": [
+        "accountId",
+        "iban",
+        "currency"
+      ],
+      "properties": {
+        "accountId": {
+          "description": "Account identifier. This is the data element to be used as path parameter 'account-id' or query parameter 'accountId' when requesting data for a dedicated account.",
+          "type": "string",
+          "maxLength": 35
+        },
+        "iban": {
+          "description": "IBAN for this account.",
+          "type": "string",
+          "pattern": "^[A-Z]{2}\\d{2}[a-zA-Z0-9]{1,30}$"
+        },
+        "currency": {
+          "description": "ISO 4217 currency code.",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "type": "object",
+              "properties": {
+                "href": {
+                  "description": "Link to account.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ApplicationInfoDTO": {
+      "type": "object",
+      "description": "Display of API FU (01-44-54) service information along with the related backend system.",
+      "properties": {
+        "productName": {
+          "type": "string",
+          "description": "The name of the product / application."
+        },
+        "productNumber": {
+          "type": "string",
+          "description": "The product number of the application."
+        },
+        "productVersion": {
+          "type": "string",
+          "description": "The version of the product / application."
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The group id as defined by maven build."
+        },
+        "artifactId": {
+          "type": "string",
+          "description": "The artifact id as defined by maven build."
+        },
+        "buildProfile": {
+          "type": "string",
+          "description": "The profile which was used by the maven build."
+        },
+        "buildVersion": {
+          "type": "string",
+          "description": "The build version as defined by maven build."
+        },
+        "buildTimestamp": {
+          "type": "string",
+          "description": "The build time stamp defined by maven build."
+        },
+        "hostName": {
+          "type": "string",
+          "description": "The build version as defined by maven build."
+        },
+        "serverMachineName": {
+          "type": "string",
+          "description": "The name of this machine."
+        }
+      }
+    },
+    "customerAgreementReference": {
+      "type": "object",
+      "description": "The customer agreement on which this account is based.",
+      "required": [
+        "customerAgreementNumber"
+      ],
+      "properties": {
+        "customerAgreementId": {
+          "description": "Customer Agreement identifier, pseudonymised value.",
+          "type": "string",
+          "maxLength": 35
+        },
+        "customerAgreementNumber": {
+          "type": "string",
+          "pattern": "^[0-9]{10}$",
+          "description": "Customer agreement number."
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "type": "object",
+              "properties": {
+                "href": {
+                  "description": "Link to customer agreement.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "amount": {
+      "type": "object",
+      "required": [
+        "currency",
+        "amount"
+      ],
+      "properties": {
+        "amount": {
+          "description": "The amount given with fractional digits, where fractions must be compliant to the currency definition.\nUp to 14 significant figures, negative amounts are signed by minus.\nThe decimal separator is a dot.",
+          "type": "string",
+          "pattern": "^[0-9]{1,14}(\\.[0-9]{1,3})?$"
+        },
+        "currency": {
+          "description": "ISO 4217 currency code.",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        }
+      }
+    },
+    "balance": {
+      "description": "Account balance.",
+      "type": "object",
+      "required": [
+        "balanceType",
+        "balanceAmount"
+      ],
+      "properties": {
+        "balanceType": {
+          "$ref": "#/definitions/balanceType"
+        },
+        "balanceAmount": {
+          "$ref": "#/definitions/amount"
+        },
+        "creditLimitIncluded": {
+          "description": "Indicates if the credit limit of the corresponding account is included in the calculation of the balance.\nApplicable (true) for balanceType 'authorized' only.",
+          "type": "boolean"
+        },
+        "referenceDate": {
+          "description": "Reference date of this balance.",
+          "type": "string",
+          "format": "date"
+        },
+        "lastChangeDateTime": {
+          "description": "Timestamp of last 'booked' transaction included in this balance.",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "balanceList": {
+      "description": "List of balances regarding this account, e.g. the current balance or the last booked balance or the interim available balance.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/balance"
+      }
+    },
+    "balanceType": {
+      "description": "Balance type with one of the following values:\n\nclosingBooked: Balance of the account at the end of the pre-agreed account reporting period. It is the sum of the opening booked balance at the beginning of the period and all entries booked to the account during the pre-agreed account reporting period.\n\nopeningBooked: Book balance of the account at the beginning of the account reporting period. It always equals the closing book balance from the previous report.\n\ninterimAvailable: Available balance calculated in the course of the business day, at the time specified, and subject to further changes during the business day. The interim balance is calculated on the basis of booked credit and debit items during the calculation time/period specified.\n\nexpected: Balance composed of booked entries and pending items known at the time of calculation, which projects the end of day balance if everything is booked on the account and no other entry is posted.\n\nauthorised: The expected balance together with the value of a pre-approved credit line permanently available to the user.\n\nforwardAvailable: Forward available balance of money that is at the disposal of the account owner on the date specified.\n\nRemark: Currently only 'interimAvailable' and 'closingBooked' and 'openingBooked' are supported.",
+      "type": "string",
+      "x-extensible-enum": [
+        "closingBooked",
+        "openingBooked",
+        "interimAvailable"
+      ]
+    },
+    "problem": {
+      "description": "A problem object according to RFC 7807.",
+      "type": "object",
+      "discriminator": "problemGeneralType",
+      "properties": {
+        "type": {
+          "type": "string",
+          "format": "uri",
+          "description": "An absolute URI that identifies the problem type.  When dereferenced, it SHOULD provide human-readable documentation for the problem type (e.g., using HTML)."
+        },
+        "title": {
+          "type": "string",
+          "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized).",
+          "example": "invalid-entity"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+          "minimum": 100,
+          "maximum": 600,
+          "exclusiveMaximum": true,
+          "example": 503
+        },
+        "detail": {
+          "type": "string",
+          "description": "A human readable explanation specific to this occurrence of the problem.",
+          "example": "The account was not found or the authenticated user is not allowed to access it."
+        },
+        "instance": {
+          "type": "string",
+          "format": "uri",
+          "description": "An absolute URI that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced."
+        }
+      }
+    },
+    "validationProblem": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/problem"
+        },
+        {
+          "description": "A problem object according to RFC 7807, enriched with information about validation errors.",
+          "type": "object",
+          "properties": {
+            "invalid-params": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/validationProblemItem"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "forbiddenProblem": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/problem"
+        },
+        {
+          "description": "A problem object according to RFC 7807, enriched with information about why the authorization failed.",
+          "type": "object",
+          "properties": {
+            "violated-constraint": {
+              "type": "string",
+              "example": "PERSON_MUST_BE_OLDER_THAN_18"
+            }
+          }
+        }
+      ]
+    },
+    "validationProblemItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The path of the field in which the validation error occurred.",
+          "example": "body.account.currency"
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason why the validation failed.",
+          "example": "must match \"^[A-Z]{3}$\""
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "OAuth (External)Implicit": [
+        "NONE"
+      ]
+    },
+    {
+      "OAuth (External)AccessCode": [
+        "NONE"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "OAuth (External)AccessCode": {
+      "description": "OAuth (External)",
+      "type": "oauth2",
+      "authorizationUrl": "https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/auth",
+      "tokenUrl": "https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/token",
+      "flow": "accessCode",
+      "scopes": {
+        "NONE": ""
+      },
+      "x-axway": {
+        "clientSecretName": "client_secret",
+        "authorizationHeaderPrefix": "",
+        "accessTokenLocationQueryString": "Bearer",
+        "clientIdName": "client_id",
+        "tokenName": "access_code",
+        "scopesMatching": "Any",
+        "accessTokenLocation": "HEADER",
+        "typeDisplayName": "OAuth 2.0"
+      }
+    },
+    "OAuth (External)Implicit": {
+      "description": "OAuth (External)",
+      "type": "oauth2",
+      "authorizationUrl": "https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/auth",
+      "flow": "implicit",
+      "scopes": {
+        "NONE": ""
+      },
+      "x-axway": {
+        "accessTokenLocationQueryString": "Bearer",
+        "tokenName": "access_token",
+        "scopesMatching": "Any",
+        "accessTokenLocation": "HEADER",
+        "typeDisplayName": "OAuth 2.0",
+        "authorizationHeaderPrefix": ""
+      }
+    },
+    "OAuth (Sandbox) Password": {
+      "type": "oauth2",
+      "description": "The tokenmanager used for sandbox services.",
+      "flow": "password",
+      "tokenUrl": "https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/token",
+      "scopes": {}
+    }
+  }
+}
