@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Security.Claims;
+using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
 using SomethingFishy.Collabothon2024.API.Data;
 using SomethingFishy.Collabothon2024.API.Services;
+using SomethingFishy.Collabothon2024.Common.Models;
 
 namespace SomethingFishy.Collabothon2024.API;
 
@@ -40,5 +43,19 @@ internal static class Extensions
 
         tokenInfo = new(token, refresh, expires.Value);
         return true;
+    }
+
+    public static ClaimsPrincipal UpdateWith(this IPrincipal principal, CommerzStampedCredentials stampedCredentials)
+    {
+        var commerzCredentials = stampedCredentials.Credentials;
+        var expiryToken = stampedCredentials.ServerTime.AddSeconds(commerzCredentials.ExpiresIn);
+
+        var identity = new ClaimsIdentity([
+            new(AuthenticationTokenHandler.ClaimTypeCommerzToken, commerzCredentials.AccessToken),
+            new(AuthenticationTokenHandler.ClaimTypeCommerzTokenExpiry, expiryToken.ToUnixTimeMilliseconds().ToString()),
+            new(AuthenticationTokenHandler.ClaimTypeCommerzRefreshToken, commerzCredentials.RefreshToken),
+        ], principal.Identity.AuthenticationType);
+
+        return new(identity);
     }
 }

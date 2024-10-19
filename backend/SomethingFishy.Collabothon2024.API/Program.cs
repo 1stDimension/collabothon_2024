@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using SomethingFishy.Collabothon2024.API.Data;
 using SomethingFishy.Collabothon2024.API.Services;
 using SomethingFishy.Collabothon2024.Common;
+using SomethingFishy.Collabothon2024.Common.Models;
 
 namespace SomethingFishy.Collabothon2024.API;
 
@@ -161,6 +162,7 @@ public class Program
                 var token = tokens.Issue(creds);
                 ctx.Request.Headers.Authorization = new(token);
                 ctx.Response.Headers.Append(AuthenticationTokenHandler.HeaderUpdateToken, token);
+                ctx.User = ctx.User.UpdateWith(creds);
             }
             catch
             {
