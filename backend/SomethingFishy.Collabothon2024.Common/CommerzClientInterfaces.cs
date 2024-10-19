@@ -16,8 +16,8 @@ public interface ICommerzClient
 public interface ICommerzAccountsForeignUnitsClient : ICommerzClient
 {
     Task<CommerzAccountList> GetAccountListAsync(CancellationToken cancellationToken = default);
-    Task<CommerzAccount> GetAccountAsync(string accountId, CancellationToken cancellationToken = default);
-    Task<CommerzAccountBalances> GetAccountBalanceListAsync(string accountId, CancellationToken cancellationToken = default);
+    Task<CommerzAccountBalances> GetAccountAsync(string accountId, CancellationToken cancellationToken = default);
+    Task<CommerzAccount> GetAccountBalanceListAsync(string accountId, CancellationToken cancellationToken = default);
 }
 
 public interface ICommerzCorporatePaymentsClient : ICommerzClient

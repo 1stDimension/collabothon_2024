@@ -54,21 +54,21 @@ internal sealed class CommerzClient
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}")]
-    async Task<CommerzAccount> ICommerzAccountsForeignUnitsClient.GetAccountAsync(string accountId, CancellationToken cancellationToken)
-    {
-        using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
-        using var res = await this._http.SendAsync(req, cancellationToken);
-        res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccount>(JsonOptions, cancellationToken);
-    }
-
-    [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/balances")]
-    async Task<CommerzAccountBalances> ICommerzAccountsForeignUnitsClient.GetAccountBalanceListAsync(string accountId, CancellationToken cancellationToken)
+    async Task<CommerzAccountBalances> ICommerzAccountsForeignUnitsClient.GetAccountAsync(string accountId, CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
         return await res.Content.ReadFromJsonAsync<CommerzAccountBalances>(JsonOptions, cancellationToken);
+    }
+
+    [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/balances")]
+    async Task<CommerzAccount> ICommerzAccountsForeignUnitsClient.GetAccountBalanceListAsync(string accountId, CancellationToken cancellationToken)
+    {
+        using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
+        using var res = await this._http.SendAsync(req, cancellationToken);
+        res.EnsureSuccessStatusCode();
+        return await res.Content.ReadFromJsonAsync<CommerzAccount>(JsonOptions, cancellationToken);
     }
 
     // corporate payments

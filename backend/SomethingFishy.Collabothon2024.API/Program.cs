@@ -55,7 +55,10 @@ public class Program
         builder.Services.AddControllers()
             .AddJsonOptions(options =>
             {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                options.JsonSerializerOptions.Converters.Add(new JsonStringDecimalConverter());
+                options.JsonSerializerOptions.Converters.Add(new JsonDateOnlyConverter());
             });
 
         builder.Services.AddRouting(options => options.LowercaseUrls = true);

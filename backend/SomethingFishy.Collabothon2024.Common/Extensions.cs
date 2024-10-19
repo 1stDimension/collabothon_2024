@@ -10,10 +10,15 @@ public static class Extensions
 {
     public static JsonSerializerOptions WithCommerzConverters(this JsonSerializerOptions options)
     {
-        options = new JsonSerializerOptions(JsonSerializerOptions.Default);
+        options = new JsonSerializerOptions(JsonSerializerOptions.Default)
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
         options.Converters.Add(new CommerzPhoneTypeConverter());
         options.Converters.Add(new CommerzAddressTypeConverter());
-        options.Converters.Add(new JsonStringEnumConverter());
+        options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+        options.Converters.Add(new JsonStringDecimalConverter());
+        options.Converters.Add(new JsonDateOnlyConverter());
         return options;
     }
 
