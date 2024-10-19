@@ -21,6 +21,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         var config = new ConfigurationBuilder()
             .AddConfiguration(builder.Configuration)
+            .AddJsonFile("config.json", optional: true)
             .AddEnvironmentVariables("STHFISHY:")
             .AddCommandLine(args)
             .Build();
@@ -42,6 +43,8 @@ public class Program
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             });
+
+        builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -65,6 +68,7 @@ public class Program
         builder.Services.AddAuthorization();
 
         builder.Services.AddHostedService<ClientCredentialsService>();
+        builder.Services.AddScoped<AuthenticationTokenHandler>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

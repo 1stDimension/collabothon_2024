@@ -10,6 +10,7 @@ public static class Extensions
 {
     public static JsonSerializerOptions WithCommerzConverters(this JsonSerializerOptions options)
     {
+        options = new JsonSerializerOptions(JsonSerializerOptions.Default);
         options.Converters.Add(new CommerzPhoneTypeConverter());
         options.Converters.Add(new CommerzAddressTypeConverter());
         options.Converters.Add(new JsonStringEnumConverter());
@@ -18,7 +19,10 @@ public static class Extensions
 
     public static JsonSerializerOptions ConfigureCommerzOauth(this JsonSerializerOptions options)
     {
-        options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+        options = new JsonSerializerOptions(JsonSerializerOptions.Default)
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+        };
         return options;
     }
 

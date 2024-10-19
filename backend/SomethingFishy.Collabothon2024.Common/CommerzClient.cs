@@ -249,7 +249,7 @@ internal sealed class CommerzClient
         };
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOptions, cancellationToken);
+        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOauthOptions, cancellationToken);
         var date = res.Headers.Date;
         return new() { ServerTime = date ?? DateTimeOffset.UtcNow, Credentials = creds };
     }
@@ -267,7 +267,7 @@ internal sealed class CommerzClient
         };
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOptions, cancellationToken);
+        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOauthOptions, cancellationToken);
         var date = res.Headers.Date;
         return new() { ServerTime = date ?? DateTimeOffset.UtcNow, Credentials = creds };
     }
@@ -286,7 +286,7 @@ internal sealed class CommerzClient
         };
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOptions, cancellationToken);
+        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOauthOptions, cancellationToken);
         var date = res.Headers.Date;
         return new() { ServerTime = date ?? DateTimeOffset.UtcNow, Credentials = creds };
     }

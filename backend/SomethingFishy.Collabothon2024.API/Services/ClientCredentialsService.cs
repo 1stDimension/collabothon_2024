@@ -18,7 +18,7 @@ public sealed class ClientCredentialsService : IHostedService
     private readonly ICommerzOauthClient _oauth;
     private readonly ApplicationConfiguration _config;
     private readonly ILogger<ClientCredentialsService> _logger;
-    private readonly CancellationTokenSource _tokenSource;
+    private readonly CancellationTokenSource _tokenSource = new();
 
     private CommerzStampedCredentials _credentials;
 
@@ -43,6 +43,7 @@ public sealed class ClientCredentialsService : IHostedService
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
+        this._logger.LogInformation("Application credentials service shutting down");
         this._tokenSource.Cancel();
         return Task.CompletedTask;
     }
