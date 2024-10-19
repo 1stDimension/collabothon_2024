@@ -9,21 +9,26 @@ from functools import partial
 from os import environ
 from pydantic import BaseModel
 
+
 @dataclass
 class RecognizeData:
     event: Event
     result: Optional[str]
     id: str
 
+
 class RecognitionResponse(BaseModel):
     transactionId: str
+
 
 class ErrorResponse(BaseModel):
     error: str
 
+
 environ["GOOGLE_APPLICATION_CREDENTIALS"] = "lodzkiterror-65599eb0142d.json"
-app = FastAPI(debug=True)
+app = FastAPI()
 TRANSACTIONS: dict[str, RecognizeData] = {}
+
 
 @app.post("/vertex/recognize")
 async def recognize_audio(
@@ -67,6 +72,7 @@ async def recognize_audio(
     except Exception as e:
         return ErrorResponse(error=str(e))
 
+
 @app.websocket("/vertex/notify/{transactionId}")
 async def notify_socket(websocket: WebSocket, transactionId: str):
     global TRANSACTIONS
@@ -79,6 +85,7 @@ async def notify_socket(websocket: WebSocket, transactionId: str):
     await data.event.wait()
     await websocket.send_json({"text": data.result})
     await websocket.close()
+
 
 def _recognize_callback(data: RecognizeData, future: Future):
     global TRANSACTIONS

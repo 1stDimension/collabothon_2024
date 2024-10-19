@@ -24,7 +24,7 @@ services:
       LOGGING__LOGLEVEL__DEFAULT: Trace
       STHFISHY__LOGSENSITIVE: 'false'
       STHFISHY__DATABASEFILE: /data/demo.db
-      STHFISHY__VERTEX: http://vertex-api:8000/
+      STHFISHY__VERTEX: http://vertex-api:8080/
       HTTP_PORTS: '80'
     env_file: backend.env
     image: collabothon-api:latest
@@ -46,8 +46,6 @@ services:
       dockerfile: Dockerfile
     networks:
     - backend-mesh
-    ports:
-    - 8000:8000
 
   frontend:
     image: collabothon-frontend:latest
