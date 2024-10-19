@@ -47,7 +47,7 @@ internal sealed class CommerzClient
     [ApiRoute(ApiMethod.GET, "/accounts")]
     async Task<CommerzAccountList> ICommerzAccountsForeignUnitsClient.GetAccountListAsync(CancellationToken cancellationToken)
     {
-        using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits).WithAccessToken(this._authToken);
+        using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { }, new { customerId = "_" }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
         return await res.Content.ReadFromJsonAsync<CommerzAccountList>(JsonOptions, cancellationToken);
