@@ -99,24 +99,26 @@ def upload_file_to_bucket(bucket_name, destination_file_name, content):
 
 # Example usage
 bucket_name = 'lodzkiterror'  # Replace with your bucket name
-
+account_id = "130471100000EUR"
 
 
 ##### end of declarations"""
 
 account_id = "130471100000EUR"
+
 api_base_path = "/accounts-api/21/v1/"
-
 destination_file_name = f"{api_base_path.replace('/', '_').replace('-', '_')[1:]}{account_id}"# Path to the local file
-api_response = str(callApiSbx(f"{api_base_path}", f"/accounts/{account_id}" , token=token, printBody=True))
-print(destination_file_name)
-upload_file_to_bucket(bucket_name,  destination_file_name=destination_file_name, content=api_response)
+#api_response_account = str(callApiSbx(f"{api_base_path}", f"/accounts/{account_id}" , token=token, printBody=False))
+
+# upload_file_to_bucket(bucket_name,  destination_file_name=destination_file_name, content=api_response_account)
 
 
+ap_transations = f"/securities-api/v4" # appi path
+df_transactions = f"{ap_transations.replace('/', '_').replace('-', '_')[1:]}{account_id}"# Path to the local file
 
-
-
-
+#securities-api/v4/accounts/XXXXXXXXXXXXXXXXXXXXXX-00/portfolio?
+res_transations = str(callApiSbx(f"securities-api/v4", f"accounts//healthcheck" , token=token, printBody=False)) #api response
+print(res_transations)
 
 
 
