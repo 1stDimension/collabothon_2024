@@ -58,7 +58,7 @@ public sealed class AuthController : ControllerBase
         var creds = await this._oauth.GetUserTokenAsync(this._config.ClientId, this._config.ClientSecret, code, ub.Uri, cancellationToken);
         var token = this._tokenHandler.Issue(creds);
 
-        this.Response.Headers.Append("X-Update-Token", new(token));
+        this.Response.Headers.Append(AuthenticationTokenHandler.HeaderUpdateToken, new(token));
         return this.Redirect("/");
     }
 }

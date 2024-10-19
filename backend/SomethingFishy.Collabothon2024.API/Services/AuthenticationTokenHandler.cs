@@ -13,6 +13,8 @@ public sealed class AuthenticationTokenHandler
     public const string ClaimTypeCommerzTokenExpiry = "commerz-token-expires";
     public const string ClaimTypeCommerzRefreshToken = "commerz-refresh";
 
+    public const string HeaderUpdateToken = "X-Update-Token";
+
     private readonly JwtConfiguration _config;
 
     public AuthenticationTokenHandler(IOptions<JwtConfiguration> options)
@@ -38,7 +40,7 @@ public sealed class AuthenticationTokenHandler
                 new(ClaimTypeCommerzRefreshToken, commerzCredentials.RefreshToken),
             ],
             notBefore: DateTime.UtcNow,
-            expires: expiryRefresh.DateTime,
+            expires: expiryRefresh.UtcDateTime,
             credentials
         );
 

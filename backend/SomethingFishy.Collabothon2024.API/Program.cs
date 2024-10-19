@@ -1,11 +1,16 @@
+using System;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SomethingFishy.Collabothon2024.API.Data;
@@ -112,7 +117,10 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseAuthentication();
         app.UseAuthorization();
+
+        app.Use(HandleTokenRotationsAsync);
 
         app.MapControllers();
 
@@ -123,5 +131,32 @@ public class Program
         //}
 
         app.Run();
+    }
+
+    private static async Task HandleTokenRotationsAsync(HttpContext ctx, RequestDelegate next)
+    {
+        if (ctx.TryGetCommerzCredentials(out var credentials) && credentials.TokenExpiresAt.AddSeconds(-15) <= DateTimeOffset.UtcNow)
+        {
+            var services = ctx.RequestServices;
+            var oauth = services.GetRequiredService<ICommerzOauthClient>();
+            var tokens = services.GetRequiredService<AuthenticationTokenHandler>();
+            var options = services.GetRequiredService<IOptions<ApplicationConfiguration>>();
+            var config = options.Value;
+            try
+            {
+                var creds = await oauth.RefreshTokenAsync(config.ClientId, config.ClientSecret, credentials.RefreshToken, ctx.RequestAborted);
+                var token = tokens.Issue(creds);
+                ctx.Request.Headers.Authorization = new(token);
+                ctx.Response.Headers.Append(AuthenticationTokenHandler.HeaderUpdateToken, token);
+            }
+            catch
+            {
+                ctx.Request.Headers.Remove("Authorization");
+                ctx.User = new ClaimsPrincipal();
+                ctx.Response.Headers.Append(AuthenticationTokenHandler.HeaderUpdateToken, "");
+            }
+        }
+
+        await next(ctx);
     }
 }
