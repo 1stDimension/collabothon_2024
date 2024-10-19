@@ -397,7 +397,7 @@ public sealed class CommerzTransactionTypeDefinition
     /// <summary>
     /// name of the type of the transaction.
     /// </summary>
-    public string Name { get; set; }
+    public CommerzSecurityTransactionType Name { get; set; }
 }
 
 public sealed class CommerzTaxDetailsDefinition
@@ -463,4 +463,13 @@ public enum CommerzSecurityVote
     Buy,
     Sell,
     Hold,
+}
+
+public enum CommerzSecurityTransactionType
+{
+    Purchase,
+    Sale,
+    Delivery,
+    Deposit,
+    Maturity
 }

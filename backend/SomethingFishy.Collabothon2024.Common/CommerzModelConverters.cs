@@ -73,7 +73,7 @@ public sealed class CommerzYesNoConverter : JsonConverter<bool>
         {
             "y" => true,
             "n" => false,
-            _ => throw new ArgumentOutOfRangeException(nameof(val), "Unrecognized yes/no value.")
+            _ => throw new ArgumentOutOfRangeException(nameof(val), "Unrecognized yes/no value."),
         };
     }
 
@@ -83,7 +83,6 @@ public sealed class CommerzYesNoConverter : JsonConverter<bool>
         {
             true => "y",
             false => "n",
-            _ => throw new ArgumentOutOfRangeException(nameof(value), "Unrecognized yes/no value.")
         };
 
         writer.WriteStringValue(val);

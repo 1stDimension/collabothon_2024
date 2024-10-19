@@ -50,7 +50,7 @@ public sealed class CommerzAccountBalances
     public IEnumerable<CommerzBalance> Balances { get; set; }
 }
 
-public sealed class AccountList
+public sealed class CommerzAccountList
 {
 
     public IEnumerable<CommerzAccount> Accounts { get; set; }

@@ -17,7 +17,7 @@ public sealed class CommerzCcscMessage
     /// | C53 | CAMT053 | camt.053.001.02 |
     /// | HAC | PAIN002 | pain.002.001.03 |
     /// </summary>
-    public OrderType OrderType { get; set; }
+    public CommerzOrderType OrderType { get; set; }
 
     /// <summary>
     /// The amount of fragments needed for complete download of the file.
@@ -30,9 +30,20 @@ public sealed class CommerzCcscMessage
     public int Size { get; set; }
 }
 
-public enum OrderType
+public sealed class CommerzCcscMessageStatus
+{
+    public CommerzMessageStatus Received { get; set; }
+}
+
+public enum CommerzOrderType
 {
     C52,
     C53,
     HAC,
+}
+
+public enum CommerzMessageStatus
+{
+    Partial,
+    Complete,
 }

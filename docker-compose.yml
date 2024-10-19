@@ -19,24 +19,24 @@ services:
     - classifier-api
     - frontend
 
-  transaction-service-api:
-    environment:
-    - LOGGING__LOGLEVEL__DEFAULT=Trace
-    - COLLABOTHON__LOGSENSITIVE=false
-    - COLLABOTHON__DATABASEFILE=/data/demo.db
-    - COLLABOTHON__CLASSIFIER=http://classifier-api:8000/
-    - ASPNETCORE_URLS=http://0.0.0.0:80/
-    image: collabothon-transaction-service-api:latest
-    build:
-      context: ./backend/
-      dockerfile: ./transaction-service-api/Dockerfile
-    user: root
-    volumes:
-    - transaction-service-data:/data
-    networks:
-    - backend-mesh
-    depends_on:
-    - classifier-api
+  # transaction-service-api:
+  #   environment:
+  #   - LOGGING__LOGLEVEL__DEFAULT=Trace
+  #   - COLLABOTHON__LOGSENSITIVE=false
+  #   - COLLABOTHON__DATABASEFILE=/data/demo.db
+  #   - COLLABOTHON__CLASSIFIER=http://classifier-api:8000/
+  #   - ASPNETCORE_URLS=http://0.0.0.0:80/
+  #   image: collabothon-transaction-service-api:latest
+  #   build:
+  #     context: ./backend/
+  #     dockerfile: ./transaction-service-api/Dockerfile
+  #   user: root
+  #   volumes:
+  #   - transaction-service-data:/data
+  #   networks:
+  #   - backend-mesh
+  #   depends_on:
+  #   - classifier-api
 
   # classifier-api:
   #   image: collabothon-classifier-api:latest
