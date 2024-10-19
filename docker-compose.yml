@@ -1,4 +1,4 @@
-name: hackyeah-demo
+name: collabothon-demo
 
 services:
   gateway:
@@ -6,7 +6,7 @@ services:
     ports:
     - "8080:80"
     environment:
-    - NGINX_PORT=80
+      NGINX_PORT: 80
     volumes:
     - type: bind
       source: ./gateway.conf
@@ -15,28 +15,29 @@ services:
     networks:
     - backend-mesh
     depends_on:
-    - transaction-service-api
-    - classifier-api
+    - collabothon-api
+    # - classifier-api
     - frontend
 
-  # transaction-service-api:
-  #   environment:
-  #   - LOGGING__LOGLEVEL__DEFAULT=Trace
-  #   - COLLABOTHON__LOGSENSITIVE=false
-  #   - COLLABOTHON__DATABASEFILE=/data/demo.db
-  #   - COLLABOTHON__CLASSIFIER=http://classifier-api:8000/
-  #   - ASPNETCORE_URLS=http://0.0.0.0:80/
-  #   image: collabothon-transaction-service-api:latest
-  #   build:
-  #     context: ./backend/
-  #     dockerfile: ./transaction-service-api/Dockerfile
-  #   user: root
-  #   volumes:
-  #   - transaction-service-data:/data
-  #   networks:
-  #   - backend-mesh
-  #   depends_on:
-  #   - classifier-api
+  collabothon-api:
+    environment:
+      LOGGING__LOGLEVEL__DEFAULT: Trace
+      STHFISHY__LOGSENSITIVE: 'false'
+      STHFISHY__DATABASEFILE: /data/demo.db
+      STHFISHY__CLASSIFIER: http://classifier-api:8000/
+      ASPNETCORE_URLS: http://0.0.0.0:80/
+    env_file: backend.env
+    image: collabothon-api:latest
+    build:
+      context: ./backend/
+      dockerfile: ./SomethingFishy.Collabothon2024.API/Dockerfile
+    user: root
+    volumes:
+    - collabothon-api-data:/data
+    networks:
+    - backend-mesh
+    # depends_on:
+    # - classifier-api
 
   # classifier-api:
   #   image: collabothon-classifier-api:latest
@@ -48,19 +49,19 @@ services:
   #   ports:
   #   - 8000:8000
 
-  # frontend:
-  #   image: collabothon-frontend:latest
-  #   build:
-  #     context: ./frontBlog
-  #     dockerfile: Dockerfile
-  #   networks:
-  #   - backend-mesh
-  #   depends_on:
-  #   - transaction-service-api
-  #   - classifier-api
+  frontend:
+    image: collabothon-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+    - backend-mesh
+    depends_on:
+    - collabothon-api
+    # - classifier-api
 
 volumes:
-  transaction-service-data:
+  collabothon-api-data:
 
 networks:
   backend-mesh:
