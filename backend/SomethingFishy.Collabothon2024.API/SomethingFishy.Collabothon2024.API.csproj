@@ -15,4 +15,8 @@
     <ProjectReference Include="..\SomethingFishy.Collabothon2024.Common\SomethingFishy.Collabothon2024.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Models\" />
+  </ItemGroup>
+
 </Project>

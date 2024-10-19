@@ -21,6 +21,8 @@ namespace SomethingFishy.Collabothon2024.API;
 
 public class Program
 {
+    private const string _corsPolicyName = "allowEverythingPolicy";
+
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +44,13 @@ public class Program
 
         builder.Services.AddSingleton<HttpClient>();
         builder.Services.AddCommerzClient();
+
+        // Add services to the container.
+        builder.Services.AddCors(opts =>
+            opts.AddPolicy(_corsPolicyName, policy =>
+                policy.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()));
 
         builder.Services.AddControllers()
             .AddJsonOptions(options =>
@@ -109,6 +118,7 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
+        app.UseCors(_corsPolicyName);
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
