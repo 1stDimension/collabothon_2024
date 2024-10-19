@@ -99,6 +99,6 @@ process_document_sample(
   project_id="546346891690",
   location="us",
   processor_id="a68f3a94c7b0b0e2",
-  file_path="Collabothon_2024.pdf",
+  file_path="GPO-CONAN-1992-10-3.pdf",
   mime_type="application/pdf",
 )
