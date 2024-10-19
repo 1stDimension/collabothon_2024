@@ -16,15 +16,15 @@ public interface ICommerzClient
 public interface ICommerzAccountsForeignUnitsClient : ICommerzClient
 {
     Task<CommerzAccountList> GetAccountListAsync(CancellationToken cancellationToken = default);
-    Task<CommerzAccount> GetAccountAsync(string accountId, CancellationToken cancellationToken = default);
-    Task<CommerzAccountBalances> GetAccountBalanceListAsync(string accountId, CancellationToken cancellationToken = default);
+    Task<CommerzAccountBalances> GetAccountAsync(string accountId, CancellationToken cancellationToken = default);
+    Task<CommerzAccount> GetAccountBalanceListAsync(string accountId, CancellationToken cancellationToken = default);
 }
 
 public interface ICommerzCorporatePaymentsClient : ICommerzClient
 {
     Task<IEnumerable<CommerzCcscMessage>> GetMessagesAsync(CancellationToken cancellationToken = default);
     Task CreateMessageAsync(Stream data, CancellationToken cancellationToken = default);
-    Task GetMessageAsync(string messageId, Stream destination, CancellationToken cancellationToken = default);
+    Task GetMessageAsync(string messageId, int fragment, Stream destination, CancellationToken cancellationToken = default);
     Task SetTransferStatusAsync(string messageId, CommerzCcscMessageStatus status, CancellationToken cancellationToken = default);
 }
 
@@ -48,7 +48,7 @@ public interface ICommerzCustomersClient : ICommerzClient
 
 public interface ICommerzSecuritiesClient : ICommerzClient
 {
-    Task<CommerzAccountsResponse> GetSecuritiesAccountAsync(CancellationToken cancellationToken = default);
+    Task<CommerzAccountsResponse> GetSecuritiesAccountsAsync(CancellationToken cancellationToken = default);
     Task<CommerzPortfolioOverviewResponse> GetSecuritiesPortfolioAsync(string accountId, DateOnly? effectiveDate = default, CancellationToken cancellationToken = default);
     Task<CommerzTransactionsResponse> GetTransactionsAsync(string accountId, CommerzSecurityTransactionType? type = default, DateOnly? fromTradingDate = default, DateOnly? toTradingDate = default, int limit = 25, CancellationToken cancellationToken = default);
 }

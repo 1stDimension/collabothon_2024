@@ -108,7 +108,7 @@ public sealed class CommerzBalanceAmount
 public sealed class CommerzBalance
 {
 
-    public CommerzBalanceType BalanceType { get; set; }
+    public CommerzBalanceTypeWrapper BalanceType { get; set; }
 
     public CommerzBalanceAmount BalanceAmount { get; set; }
 
@@ -127,6 +127,11 @@ public sealed class CommerzBalance
     /// Timestamp of last 'booked' transaction included in this balance.
     /// </summary>
     public DateTimeOffset LastChangeDateTime { get; set; }
+}
+
+public sealed class CommerzBalanceTypeWrapper
+{
+    public CommerzBalanceType BalanceType { get; set; }
 }
 
 public enum CommerzBalanceType

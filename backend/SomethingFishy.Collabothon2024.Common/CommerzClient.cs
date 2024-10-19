@@ -29,8 +29,9 @@ internal sealed class CommerzClient
     private static Uri UriSecurities { get; } = new("https://api-sandbox.commerzbank.com/securities-api/v4");
     private static Uri UriOauthClient { get; } = new("https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/token");
     private static Uri UriOauthUser { get; } = new("https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/auth");
-    private static JsonSerializerOptions JsonOptions { get; } = JsonSerializerOptions.Default.WithCommerzConverters();
-    private static JsonSerializerOptions JsonOauthOptions { get; } = JsonSerializerOptions.Default.ConfigureCommerzOauth();
+    private static JsonSerializerOptions JsonOptions { get; } = JsonSerializerOptions.Default.ForCommerzApi();
+    private static JsonSerializerOptions JsonMessagesOptions { get; } = JsonSerializerOptions.Default.ForCommerzMessages();
+    private static JsonSerializerOptions JsonOauthOptions { get; } = JsonSerializerOptions.Default.ForCommerzOauth();
 
     string ICommerzClient.AuthorizationToken { set => this._authToken = value; }
 
@@ -54,21 +55,21 @@ internal sealed class CommerzClient
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}")]
-    async Task<CommerzAccount> ICommerzAccountsForeignUnitsClient.GetAccountAsync(string accountId, CancellationToken cancellationToken)
-    {
-        using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
-        using var res = await this._http.SendAsync(req, cancellationToken);
-        res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccount>(JsonOptions, cancellationToken);
-    }
-
-    [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/balances")]
-    async Task<CommerzAccountBalances> ICommerzAccountsForeignUnitsClient.GetAccountBalanceListAsync(string accountId, CancellationToken cancellationToken)
+    async Task<CommerzAccountBalances> ICommerzAccountsForeignUnitsClient.GetAccountAsync(string accountId, CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
         return await res.Content.ReadFromJsonAsync<CommerzAccountBalances>(JsonOptions, cancellationToken);
+    }
+
+    [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/balances")]
+    async Task<CommerzAccount> ICommerzAccountsForeignUnitsClient.GetAccountBalanceListAsync(string accountId, CancellationToken cancellationToken)
+    {
+        using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
+        using var res = await this._http.SendAsync(req, cancellationToken);
+        res.EnsureSuccessStatusCode();
+        return await res.Content.ReadFromJsonAsync<CommerzAccount>(JsonOptions, cancellationToken);
     }
 
     // corporate payments
@@ -78,7 +79,7 @@ internal sealed class CommerzClient
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCorporatePayments).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<IEnumerable<CommerzCcscMessage>>(JsonOptions, cancellationToken);
+        return await res.Content.ReadFromJsonAsync<IEnumerable<CommerzCcscMessage>>(JsonMessagesOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.POST, "/messages")]
@@ -92,9 +93,9 @@ internal sealed class CommerzClient
     }
 
     [ApiRoute(ApiMethod.GET, $"/messages/:{nameof(messageId)}")]
-    async Task ICommerzCorporatePaymentsClient.GetMessageAsync(string messageId, Stream destination, CancellationToken cancellationToken)
+    async Task ICommerzCorporatePaymentsClient.GetMessageAsync(string messageId, int fragment, Stream destination, CancellationToken cancellationToken)
     {
-        using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCorporatePayments, new { messageId }).WithAccessToken(this._authToken);
+        using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCorporatePayments, new { messageId }, new { fragment }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
         await res.Content.CopyToAsync(destination, cancellationToken);
@@ -210,7 +211,7 @@ internal sealed class CommerzClient
 
     // securities
     [ApiRoute(ApiMethod.GET, "/accounts")]
-    async Task<CommerzAccountsResponse> ICommerzSecuritiesClient.GetSecuritiesAccountAsync(CancellationToken cancellationToken)
+    async Task<CommerzAccountsResponse> ICommerzSecuritiesClient.GetSecuritiesAccountsAsync(CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriSecurities).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);

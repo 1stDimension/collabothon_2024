@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Emzi0767.Utilities;
 using Microsoft.AspNetCore.Http;
@@ -24,24 +25,20 @@ internal sealed class ApiRequestBuilder<T> where T : class
             .Where(x => x.a is not null)
             .Select(x => new { x.m, i = new ApiRouteInfo { Route = x.a, Fills = ApiRouteParser.ParseRoute(x.a).ToArray() } });
 
-        RouteInfos = parsedInfos.ToDictionary(x => x.m.Name, x => x.i);
+        RouteInfos = parsedInfos.ToDictionary(x => x.m.Name.Split('.')[^1], x => x.i);
     }
 
-    public static HttpRequestMessage FromRequestContext(Uri baseUri)
-        => FromRequestContext(baseUri, EmptyParamsObject);
+    public static HttpRequestMessage FromRequestContext(Uri baseUri, [CallerMemberName] string name = default)
+        => FromRequestContext(baseUri, EmptyParamsObject, name);
 
-    public static HttpRequestMessage FromRequestContext<TParams>(Uri baseUri, TParams @params)
+    public static HttpRequestMessage FromRequestContext<TParams>(Uri baseUri, TParams @params, [CallerMemberName] string name = default)
         where TParams : class
-        => FromRequestContext(baseUri, @params, EmptyParamsObject);
+        => FromRequestContext(baseUri, @params, EmptyParamsObject, name);
 
-    public static HttpRequestMessage FromRequestContext<TParams, TQuery>(Uri baseUri, TParams @params, TQuery query)
+    public static HttpRequestMessage FromRequestContext<TParams, TQuery>(Uri baseUri, TParams @params, TQuery query, [CallerMemberName] string name = default)
         where TParams : class
         where TQuery : class
     {
-        var frame = new StackFrame(1);
-        var method = frame.GetMethod();
-        var name = method.Name;
-
         if (!RouteInfos.TryGetValue(name, out var routeInfo))
             throw new InvalidOperationException("Invalid request context used.");
 
