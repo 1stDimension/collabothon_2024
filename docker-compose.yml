@@ -27,7 +27,7 @@ services:
       STHFISHY__CLASSIFIER: http://classifier-api:8000/
       ASPNETCORE_URLS: http://0.0.0.0:80/
     env_file: backend.env
-    image: collabothon-transaction-service-api:latest
+    image: collabothon-api:latest
     build:
       context: ./backend/
       dockerfile: ./SomethingFishy.Collabothon2024.API/Dockerfile
