@@ -52,3 +52,11 @@ public interface ICommerzSecuritiesClient : ICommerzClient
     Task<CommerzPortfolioOverviewResponse> GetSecuritiesPortfolioAsync(string accountId, DateOnly? effectiveDate = default, CancellationToken cancellationToken = default);
     Task<CommerzTransactionsResponse> GetTransactionsAsync(string accountId, CommerzSecurityTransactionType? type = default, DateOnly? fromTradingDate = default, DateOnly? toTradingDate = default, int limit = 25, CancellationToken cancellationToken = default);
 }
+
+public interface ICommerzOauthClient
+{
+    Task<CommerzStampedCredentials> GetClientCredentialsTokenAsync(string clientId, string clientSecret, CancellationToken cancellationToken = default);
+    Task<CommerzStampedCredentials> RefreshTokenAsync(string clientId, string clientSecret, string refreshToken, CancellationToken cancellationToken = default);
+    Task<CommerzStampedCredentials> GetUserTokenAsync(string clientId, string clientSecret, string authorizationCode, Uri appUri, CancellationToken cancellationToken = default);
+    Task<Uri> GetAuthorizationRedirectAsync(string clientId, Uri appUri, CancellationToken cancellationToken = default);
+}

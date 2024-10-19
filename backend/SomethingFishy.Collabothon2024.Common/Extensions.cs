@@ -16,12 +16,19 @@ public static class Extensions
         return options;
     }
 
+    public static JsonSerializerOptions ConfigureCommerzOauth(this JsonSerializerOptions options)
+    {
+        options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+        return options;
+    }
+
     public static IServiceCollection AddCommerzClient(this IServiceCollection services)
         => services.AddScoped<ICommerzAccountsForeignUnitsClient, CommerzClient>()
             .AddScoped<ICommerzCorporatePaymentsClient, CommerzClient>()
             .AddScoped<ICommerzInstantNotificationsClient, CommerzClient>()
             .AddScoped<ICommerzCustomersClient, CommerzClient>()
-            .AddScoped<ICommerzSecuritiesClient, CommerzClient>();
+            .AddScoped<ICommerzSecuritiesClient, CommerzClient>()
+            .AddTransient<ICommerzOauthClient, CommerzClient>();
 
     internal static HttpRequestMessage WithAccessToken(this HttpRequestMessage req, string token)
     {
