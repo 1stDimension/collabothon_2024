@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using SomethingFishy.Collabothon2024.Common.Models;
@@ -18,6 +19,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
     private static Uri UriInstantPaymentNotifications { get; } = new("https://api-sandbox.commerzbank.com/payments-api/12/v1");
     private static Uri UriCustomers { get; } = new("https://api-sandbox.commerzbank.com/customers-api/v2");
     private static Uri UriSecurities { get; } = new("https://api-sandbox.commerzbank.com/securities-api/v4");
+    private static JsonSerializerOptions JsonOptions { get; } = JsonSerializerOptions.Default.WithCommerzConverters();
 
     string ICommerzClient.AuthorizationToken { set => this._authToken = value; }
 
@@ -37,7 +39,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccountList>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzAccountList>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}")]
@@ -46,7 +48,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccount>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzAccount>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/balances")]
@@ -55,7 +57,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccountBalances>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzAccountBalances>(JsonOptions, cancellationToken);
     }
 
     // corporate payments
@@ -65,7 +67,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCorporatePayments).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<IEnumerable<CommerzCcscMessage>>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<IEnumerable<CommerzCcscMessage>>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.POST, "/messages")]
@@ -91,7 +93,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
     async Task ICommerzCorporatePaymentsClient.SetTransferStatusAsync(string messageId, CommerzCcscMessageStatus status, CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCorporatePayments, new { messageId }).WithAccessToken(this._authToken);
-        req.Content = JsonContent.Create(status);
+        req.Content = JsonContent.Create(status, null, JsonOptions);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
     }
@@ -101,10 +103,10 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
     async Task<CommerzSubscriptionResponse> ICommerzInstantNotificationsClient.CreateSubscriptionAsync(CommerzSubscriptionRequest subscription, CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications).WithAccessToken(this._authToken);
-        req.Content = JsonContent.Create(subscription);
+        req.Content = JsonContent.Create(subscription, null, JsonOptions);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}")]
@@ -113,7 +115,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscription>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscription>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.DELETE, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}")]
@@ -130,17 +132,17 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionStatusResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionStatusResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}/subscription-entries")]
     async Task<CommerzSubscriptionEntryResponse> ICommerzInstantNotificationsClient.CreateSubscriptionEntryAsync(string subscriptionId, CommerzSubscriptionEntryRequest subscriptionEntry, CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId }).WithAccessToken(this._authToken);
-        req.Content = JsonContent.Create(subscriptionEntry);
+        req.Content = JsonContent.Create(subscriptionEntry, null, JsonOptions);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntryResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntryResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}/subscription-entries/:{nameof(subscriptionEntryId)}")]
@@ -149,7 +151,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId, subscriptionEntryId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntry>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntry>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.DELETE, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}/subscription-entries/:{nameof(subscriptionEntryId)}")]
@@ -166,7 +168,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId, subscriptionEntryId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntryStatusResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntryStatusResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.POST, "/subscriptions/instant-payment-notifications/certificates")]
@@ -180,7 +182,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         };
 
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications).WithAccessToken(this._authToken);
-        req.Content = JsonContent.Create(data);
+        req.Content = JsonContent.Create(data, null, JsonOptions);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
     }
@@ -192,7 +194,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCustomers).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzCustomer>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzCustomer>(JsonOptions, cancellationToken);
     }
 
     // securities
@@ -202,7 +204,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriSecurities).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccountsResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzAccountsResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/portfolio")]
@@ -211,7 +213,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriSecurities, new { accountId }, new { effectiveDate }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzPortfolioOverviewResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzPortfolioOverviewResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/transactions")]
@@ -220,6 +222,6 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriSecurities, new { accountId }, new { type, fromTradingDate, toTradingDate, limit }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzTransactionsResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzTransactionsResponse>(JsonOptions, cancellationToken);
     }
 }
