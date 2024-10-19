@@ -15,19 +15,19 @@ export default function Header() {
         <Link href="#" className="border-b-2 border-white px-[24px] py-[12px]">
           Dashboard
         </Link>
-        <Link href="#" className="hover:border-b-2 hover:border-white px-[24px] py-[12px]">
+        <Link href="#" className="text-[#9EB0B6] hover:border-b-2 hover:border-white px-[24px] py-[12px]">
           Transactions
         </Link>
-        <Link href="#" className="hover:border-b-2 hover:border-white px-[24px] py-[12px]">
+        <Link href="#" className="text-[#9EB0B6] hover:border-b-2 hover:border-white px-[24px] py-[12px]">
           Accounts
         </Link>
-        <Link href="#" className="hover:border-b-2 hover:border-white px-[24px] py-[12px]">
+        <Link href="#" className="text-[#9EB0B6] hover:border-b-2 hover:border-white px-[24px] py-[12px]">
             Reports
         </Link>
-        <Link href="#" className="hover:border-b-2 hover:border-white px-[24px] py-[12px]">
+        <Link href="#" className="text-[#9EB0B6] hover:border-b-2 hover:border-white px-[24px] py-[12px]">
           My data
         </Link>
-        <Link href="#" className="hover:border-b-2 hover:border-white px-[24px] py-[12px]">
+        <Link href="#" className="text-[#9EB0B6] hover:border-b-2 hover:border-white px-[24px] py-[12px]">
           Help
         </Link>
       </nav>

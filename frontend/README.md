@@ -41,9 +41,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 To do:
 [x] Add Header
-[] Add customizable dashboard
+[] Add Ai tools
+[] Add DnD Area
 [] Create components:
-    [] Date
+    [x] Date
     [] Approvals
     [] Lawns
     [] Accounts
