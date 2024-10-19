@@ -58,7 +58,7 @@ public sealed class AuthController : ControllerBase
         var creds = await this._oauth.GetUserTokenAsync(this._config.ClientId, this._config.ClientSecret, code, ub.Uri, cancellationToken);
         var token = this._tokenHandler.Issue(creds);
 
-        var tokenFragment = QueryString.Create("token", token);
+        var tokenFragment = QueryString.Create("@token", token);
         ub = new UriBuilder(this.Request.GetEncodedUrl())
         {
             Path = "/",
