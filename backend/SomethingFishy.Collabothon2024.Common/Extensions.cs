@@ -1,11 +1,8 @@
-﻿using System.Net.Http.Headers;
-using System.Net.Http;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace SomethingFishy.Collabothon2024.Common;
 
