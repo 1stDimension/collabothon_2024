@@ -24,7 +24,7 @@ public interface ICommerzCorporatePaymentsClient : ICommerzClient
 {
     Task<IEnumerable<CommerzCcscMessage>> GetMessagesAsync(CancellationToken cancellationToken = default);
     Task CreateMessageAsync(Stream data, CancellationToken cancellationToken = default);
-    Task GetMessageAsync(string messageId, Stream destination, CancellationToken cancellationToken = default);
+    Task GetMessageAsync(string messageId, int fragment, Stream destination, CancellationToken cancellationToken = default);
     Task SetTransferStatusAsync(string messageId, CommerzCcscMessageStatus status, CancellationToken cancellationToken = default);
 }
 
