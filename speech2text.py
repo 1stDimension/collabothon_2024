@@ -37,3 +37,5 @@ response = operation.result(timeout=90)
 
 for result in response.results:
   print("Transcript: {}".format(result.alternatives[0].transcript))
+
+### return promt to vertex search
