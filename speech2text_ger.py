@@ -11,7 +11,7 @@ import scipy.io.wavfile as wav
 import base64  # for encoding to byte string
 
 # Read the WAV file
-sample_rate, audio_data = wav.read("pizza_voice_sample.wav")
+sample_rate, audio_data = wav.read("german_voice_sample.wav")
 
 # Convert audio data to byte string (assuming PCM encoding)
 audio_content = base64.b64encode(audio_data.tobytes()).decode('utf-8')
