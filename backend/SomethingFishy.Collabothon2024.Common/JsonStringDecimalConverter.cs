@@ -9,8 +9,11 @@ public sealed class JsonStringDecimalConverter : JsonConverter<decimal>
 {
     public override decimal Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.TokenType != JsonTokenType.String)
+        if (reader.TokenType != JsonTokenType.String && reader.TokenType != JsonTokenType.Number)
             throw new JsonException($"Invalid data type encountered when reading decimal: {reader.TokenType}.");
+
+        if (reader.TokenType == JsonTokenType.Number)
+            return reader.GetDecimal();
 
         var strval = reader.GetString();
         var val = decimal.Parse(strval, CultureInfo.InvariantCulture);

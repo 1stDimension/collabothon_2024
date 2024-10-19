@@ -91,7 +91,7 @@ public sealed class CommerzInitialprice
     /// <summary>
     /// Only for foreign currency exchange rates and euro clearing accounts, otherwise value=1.
     /// </summary>
-    public decimal InitialExchangeRate { get; set; }
+    public decimal ExchangeRate { get; set; }
 }
 
 public sealed class CommerzMoney
@@ -411,7 +411,7 @@ public sealed class CommerzTaxDetailsDefinition
     /// <summary>
     /// Description of tax type.
     /// </summary>
-    public object TaxTypeDescription { get; set; }
+    public IReadOnlyDictionary<string, string> TaxTypeDescription { get; set; }
 
     public CommerzMoney Amount { get; set; }
 }

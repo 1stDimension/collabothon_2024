@@ -48,7 +48,7 @@ public interface ICommerzCustomersClient : ICommerzClient
 
 public interface ICommerzSecuritiesClient : ICommerzClient
 {
-    Task<CommerzAccountsResponse> GetSecuritiesAccountAsync(CancellationToken cancellationToken = default);
+    Task<CommerzAccountsResponse> GetSecuritiesAccountsAsync(CancellationToken cancellationToken = default);
     Task<CommerzPortfolioOverviewResponse> GetSecuritiesPortfolioAsync(string accountId, DateOnly? effectiveDate = default, CancellationToken cancellationToken = default);
     Task<CommerzTransactionsResponse> GetTransactionsAsync(string accountId, CommerzSecurityTransactionType? type = default, DateOnly? fromTradingDate = default, DateOnly? toTradingDate = default, int limit = 25, CancellationToken cancellationToken = default);
 }

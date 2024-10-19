@@ -71,8 +71,8 @@ public sealed class CommerzYesNoConverter : JsonConverter<bool>
         var val = reader.GetString();
         return val switch
         {
-            "y" => true,
-            "n" => false,
+            "y" or "true" => true,
+            "n" or "false" => false,
             _ => throw new ArgumentOutOfRangeException(nameof(val), "Unrecognized yes/no value."),
         };
     }
@@ -81,8 +81,8 @@ public sealed class CommerzYesNoConverter : JsonConverter<bool>
     {
         var val = value switch
         {
-            true => "y",
-            false => "n",
+            true => "true",
+            false => "false",
         };
 
         writer.WriteStringValue(val);

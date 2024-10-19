@@ -210,7 +210,7 @@ internal sealed class CommerzClient
 
     // securities
     [ApiRoute(ApiMethod.GET, "/accounts")]
-    async Task<CommerzAccountsResponse> ICommerzSecuritiesClient.GetSecuritiesAccountAsync(CancellationToken cancellationToken)
+    async Task<CommerzAccountsResponse> ICommerzSecuritiesClient.GetSecuritiesAccountsAsync(CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriSecurities).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
