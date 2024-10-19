@@ -5,19 +5,32 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using SomethingFishy.Collabothon2024.Common.Models;
 
 namespace SomethingFishy.Collabothon2024.Common;
 
-internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUnitsClient, ICommerzCorporatePaymentsClient, ICommerzInstantNotificationsClient, ICommerzCustomersClient, ICommerzSecuritiesClient
+internal sealed class CommerzClient 
+    : ICommerzClient, 
+    ICommerzAccountsForeignUnitsClient, 
+    ICommerzCorporatePaymentsClient, 
+    ICommerzInstantNotificationsClient, 
+    ICommerzCustomersClient, 
+    ICommerzSecuritiesClient, 
+    ICommerzOauthClient
 {
     private static Uri UriAccountForeignUnits { get; } = new("https://api-sandbox.commerzbank.com/accounts-api/21/v1");
     private static Uri UriCorporatePayments { get; } = new("https://api-sandbox.commerzbank.com/corporate-payments-api/1/v1/bulk-payments");
     private static Uri UriInstantPaymentNotifications { get; } = new("https://api-sandbox.commerzbank.com/payments-api/12/v1");
     private static Uri UriCustomers { get; } = new("https://api-sandbox.commerzbank.com/customers-api/v2");
     private static Uri UriSecurities { get; } = new("https://api-sandbox.commerzbank.com/securities-api/v4");
+    private static Uri UriOauthClient { get; } = new("https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/token");
+    private static Uri UriOauthUser { get; } = new("https://api-sandbox.commerzbank.com/auth/realms/sandbox/protocol/openid-connect/auth");
+    private static JsonSerializerOptions JsonOptions { get; } = JsonSerializerOptions.Default.WithCommerzConverters();
+    private static JsonSerializerOptions JsonOauthOptions { get; } = JsonSerializerOptions.Default.ConfigureCommerzOauth();
 
     string ICommerzClient.AuthorizationToken { set => this._authToken = value; }
 
@@ -37,7 +50,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccountList>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzAccountList>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}")]
@@ -46,7 +59,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccount>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzAccount>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/balances")]
@@ -55,7 +68,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriAccountForeignUnits, new { accountId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccountBalances>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzAccountBalances>(JsonOptions, cancellationToken);
     }
 
     // corporate payments
@@ -65,7 +78,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCorporatePayments).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<IEnumerable<CommerzCcscMessage>>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<IEnumerable<CommerzCcscMessage>>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.POST, "/messages")]
@@ -91,7 +104,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
     async Task ICommerzCorporatePaymentsClient.SetTransferStatusAsync(string messageId, CommerzCcscMessageStatus status, CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCorporatePayments, new { messageId }).WithAccessToken(this._authToken);
-        req.Content = JsonContent.Create(status);
+        req.Content = JsonContent.Create(status, null, JsonOptions);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
     }
@@ -101,10 +114,10 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
     async Task<CommerzSubscriptionResponse> ICommerzInstantNotificationsClient.CreateSubscriptionAsync(CommerzSubscriptionRequest subscription, CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications).WithAccessToken(this._authToken);
-        req.Content = JsonContent.Create(subscription);
+        req.Content = JsonContent.Create(subscription, null, JsonOptions);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}")]
@@ -113,7 +126,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscription>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscription>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.DELETE, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}")]
@@ -130,17 +143,17 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionStatusResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionStatusResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}/subscription-entries")]
     async Task<CommerzSubscriptionEntryResponse> ICommerzInstantNotificationsClient.CreateSubscriptionEntryAsync(string subscriptionId, CommerzSubscriptionEntryRequest subscriptionEntry, CancellationToken cancellationToken)
     {
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId }).WithAccessToken(this._authToken);
-        req.Content = JsonContent.Create(subscriptionEntry);
+        req.Content = JsonContent.Create(subscriptionEntry, null, JsonOptions);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntryResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntryResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}/subscription-entries/:{nameof(subscriptionEntryId)}")]
@@ -149,7 +162,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId, subscriptionEntryId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntry>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntry>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.DELETE, $"/subscriptions/instant-payment-notifications/:{nameof(subscriptionId)}/subscription-entries/:{nameof(subscriptionEntryId)}")]
@@ -166,7 +179,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications, new { subscriptionId, subscriptionEntryId }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntryStatusResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzSubscriptionEntryStatusResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.POST, "/subscriptions/instant-payment-notifications/certificates")]
@@ -180,7 +193,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         };
 
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriInstantPaymentNotifications).WithAccessToken(this._authToken);
-        req.Content = JsonContent.Create(data);
+        req.Content = JsonContent.Create(data, null, JsonOptions);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
     }
@@ -192,7 +205,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriCustomers).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzCustomer>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzCustomer>(JsonOptions, cancellationToken);
     }
 
     // securities
@@ -202,7 +215,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriSecurities).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzAccountsResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzAccountsResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/portfolio")]
@@ -211,7 +224,7 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriSecurities, new { accountId }, new { effectiveDate }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzPortfolioOverviewResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzPortfolioOverviewResponse>(JsonOptions, cancellationToken);
     }
 
     [ApiRoute(ApiMethod.GET, $"/accounts/:{nameof(accountId)}/transactions")]
@@ -220,6 +233,77 @@ internal sealed class CommerzClient : ICommerzClient, ICommerzAccountsForeignUni
         using var req = ApiRequestBuilder<CommerzClient>.FromRequestContext(UriSecurities, new { accountId }, new { type, fromTradingDate, toTradingDate, limit }).WithAccessToken(this._authToken);
         using var res = await this._http.SendAsync(req, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<CommerzTransactionsResponse>(cancellationToken);
+        return await res.Content.ReadFromJsonAsync<CommerzTransactionsResponse>(JsonOptions, cancellationToken);
+    }
+
+    // oauth
+    async Task<CommerzStampedCredentials> ICommerzOauthClient.GetClientCredentialsTokenAsync(string clientId, string clientSecret, CancellationToken cancellationToken)
+    {
+        var req = new HttpRequestMessage(HttpMethod.Post, UriOauthClient)
+        {
+            Content = new FormUrlEncodedContent([
+                new("grant_type", "client_credentials"),
+                new("client_id", clientId),
+                new("client_secret", clientSecret),
+            ])
+        };
+        using var res = await this._http.SendAsync(req, cancellationToken);
+        res.EnsureSuccessStatusCode();
+        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOauthOptions, cancellationToken);
+        var date = res.Headers.Date;
+        return new() { ServerTime = date ?? DateTimeOffset.UtcNow, Credentials = creds };
+    }
+
+    async Task<CommerzStampedCredentials> ICommerzOauthClient.RefreshTokenAsync(string clientId, string clientSecret, string refreshToken, CancellationToken cancellationToken)
+    {
+        var req = new HttpRequestMessage(HttpMethod.Post, UriOauthClient)
+        {
+            Content = new FormUrlEncodedContent([
+                new("grant_type", "refresh_token"),
+                new("refresh_token", refreshToken),
+                new("client_id", clientId),
+                new("client_secret", clientSecret),
+            ])
+        };
+        using var res = await this._http.SendAsync(req, cancellationToken);
+        res.EnsureSuccessStatusCode();
+        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOauthOptions, cancellationToken);
+        var date = res.Headers.Date;
+        return new() { ServerTime = date ?? DateTimeOffset.UtcNow, Credentials = creds };
+    }
+
+    async Task<CommerzStampedCredentials> ICommerzOauthClient.GetUserTokenAsync(string clientId, string clientSecret, string authorizationCode, Uri appUri, CancellationToken cancellationToken)
+    {
+        var req = new HttpRequestMessage(HttpMethod.Post, UriOauthClient)
+        {
+            Content = new FormUrlEncodedContent([
+                new("grant_type", "authorization_code"),
+                new("client_id", clientId),
+                new("client_secret", clientSecret),
+                new("code", authorizationCode),
+                new("redirect_uri", appUri.ToString())
+            ])
+        };
+        using var res = await this._http.SendAsync(req, cancellationToken);
+        res.EnsureSuccessStatusCode();
+        var creds = await res.Content.ReadFromJsonAsync<CommerzCredentials>(JsonOauthOptions, cancellationToken);
+        var date = res.Headers.Date;
+        return new() { ServerTime = date ?? DateTimeOffset.UtcNow, Credentials = creds };
+    }
+
+    Task<Uri> ICommerzOauthClient.GetAuthorizationRedirectAsync(string clientId, Uri appUri, CancellationToken cancellationToken)
+    {
+        var query = QueryString.Create([
+            new KeyValuePair<string, string>("response_type", "code"),
+            new KeyValuePair<string, string>("client_id", clientId),
+            new KeyValuePair<string, string>("redirect_uri", appUri.ToString()),
+        ]);
+
+        var ub = new UriBuilder(UriOauthUser)
+        {
+            Query = query.Value
+        };
+
+        return Task.FromResult(ub.Uri);
     }
 }

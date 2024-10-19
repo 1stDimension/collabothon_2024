@@ -10,9 +10,19 @@ public static class Extensions
 {
     public static JsonSerializerOptions WithCommerzConverters(this JsonSerializerOptions options)
     {
+        options = new JsonSerializerOptions(JsonSerializerOptions.Default);
         options.Converters.Add(new CommerzPhoneTypeConverter());
         options.Converters.Add(new CommerzAddressTypeConverter());
         options.Converters.Add(new JsonStringEnumConverter());
+        return options;
+    }
+
+    public static JsonSerializerOptions ConfigureCommerzOauth(this JsonSerializerOptions options)
+    {
+        options = new JsonSerializerOptions(JsonSerializerOptions.Default)
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+        };
         return options;
     }
 
@@ -21,7 +31,8 @@ public static class Extensions
             .AddScoped<ICommerzCorporatePaymentsClient, CommerzClient>()
             .AddScoped<ICommerzInstantNotificationsClient, CommerzClient>()
             .AddScoped<ICommerzCustomersClient, CommerzClient>()
-            .AddScoped<ICommerzSecuritiesClient, CommerzClient>();
+            .AddScoped<ICommerzSecuritiesClient, CommerzClient>()
+            .AddTransient<ICommerzOauthClient, CommerzClient>();
 
     internal static HttpRequestMessage WithAccessToken(this HttpRequestMessage req, string token)
     {
