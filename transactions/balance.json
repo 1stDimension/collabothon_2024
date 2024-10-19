@@ -1,0 +1,46 @@
+{
+    "account": {
+      "accountId": "130471100000EUR",
+      "iban": "NL84COBA4711000000",  
+      "currency": "EUR",
+      "links": null
+    },
+    "balances": [
+      {
+        "balanceType": {
+          "balanceType": "openingBooked"
+        },
+        "balanceAmount": {
+          "amount": "9999.99",
+          "currency": "EUR"
+        },
+        "creditLimitIncluded": false,
+        "referenceDate": "2019-11-13T00:00:00",
+        "lastChangeDateTime": "2019-11-13T00:00:00"
+      },
+      {
+        "balanceType": {
+          "balanceType": "closingBooked"
+        },
+        "balanceAmount": {
+          "amount": "9999.99",
+          "currency": "EUR"
+        },
+        "creditLimitIncluded": false,
+        "referenceDate": "2019-11-13T00:00:00",
+        "lastChangeDateTime": "2019-11-13T00:00:00"
+      },
+      {
+        "balanceType": {
+          "balanceType": "interimAvailable"
+        },
+        "balanceAmount": {
+          "amount": "9999.99",
+          "currency": "EUR"
+        },
+        "creditLimitIncluded": false,
+        "referenceDate": "2019-11-13T00:00:00",
+        "lastChangeDateTime": "2019-11-13T00:00:00"
+      }
+    ]
+  }
