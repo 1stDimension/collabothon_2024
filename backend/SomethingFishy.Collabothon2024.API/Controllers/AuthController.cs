@@ -34,11 +34,17 @@ public sealed class AuthController : ControllerBase
     public async Task<IActionResult> AuthenticateUserAsync(CancellationToken cancellationToken = default)
     {
         var path = this.Url.RouteUrl(routeName: nameof(this.CompleteUserAuthenticationAsync));
-        var ub = new UriBuilder(this.Request.GetEncodedUrl())
+        var ub = new UriBuilder
         {
+            Scheme = this.HttpContext.Request.Scheme,
+            Host = this.HttpContext.Request.Host.Host,
             Path = path,
             Query = ""
         };
+
+        var port = this.HttpContext.Request.Host.Port;
+        if (port is not null)
+            ub.Port = port.Value;
 
         var uri = await this._oauth.GetAuthorizationRedirectAsync(this._config.ClientId, ub.Uri, cancellationToken);
         return this.Redirect(uri.ToString());
@@ -49,11 +55,17 @@ public sealed class AuthController : ControllerBase
     public async Task<IActionResult> CompleteUserAuthenticationAsync([FromQuery] string code, CancellationToken cancellationToken = default)
     {
         var path = this.Url.RouteUrl(routeName: nameof(this.CompleteUserAuthenticationAsync));
-        var ub = new UriBuilder(this.Request.GetEncodedUrl())
+        var ub = new UriBuilder
         {
+            Scheme = this.HttpContext.Request.Scheme,
+            Host = this.HttpContext.Request.Host.Host,
             Path = path,
             Query = ""
         };
+
+        var port = this.HttpContext.Request.Host.Port;
+        if (port is not null)
+            ub.Port = port.Value;
 
         var creds = await this._oauth.GetUserTokenAsync(this._config.ClientId, this._config.ClientSecret, code, ub.Uri, cancellationToken);
         var token = this._tokenHandler.Issue(creds);

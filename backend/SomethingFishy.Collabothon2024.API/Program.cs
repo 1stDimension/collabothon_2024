@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
@@ -7,16 +8,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SomethingFishy.Collabothon2024.API.Data;
 using SomethingFishy.Collabothon2024.API.Services;
 using SomethingFishy.Collabothon2024.Common;
-using SomethingFishy.Collabothon2024.Common.Models;
 
 namespace SomethingFishy.Collabothon2024.API;
 
@@ -42,6 +42,15 @@ public class Program
         builder.Services.AddOptions<JwtConfiguration>()
             .Bind(config.GetSection("JWT"))
             .ValidateDataAnnotations();
+
+        builder.Services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.All;
+            options.AllowedHosts.Clear();
+            options.KnownNetworks.Clear();
+            options.KnownNetworks.Add(new Microsoft.AspNetCore.HttpOverrides.IPNetwork(IPAddress.Any, 0));
+            options.KnownNetworks.Add(new Microsoft.AspNetCore.HttpOverrides.IPNetwork(IPAddress.IPv6Any, 0));
+        });
 
         builder.Services.AddSingleton<HttpClient>();
         builder.Services.AddCommerzClient();
@@ -122,14 +131,12 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
+        app.UseForwardedHeaders();
         app.UseCors(_corsPolicyName);
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
         app.UseAuthentication();
         app.UseAuthorization();
