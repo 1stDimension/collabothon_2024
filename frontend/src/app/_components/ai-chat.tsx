@@ -121,10 +121,10 @@ export default function AiChatPane({ active, onDismiss } : Props) {
     setIsProcessing(false);
     setMessages([ ...messages, { isUser: true, text } ]);
   };
-  const addSystemMessage = (text: string) => {
-    console.log("received system message:", text);
-    setMessages([ ...messages, { isUser: false, text } ]);
-  };
+  // const addSystemMessage = (text: string) => {
+  //   console.log("received system message:", text);
+  //   setMessages([ ...messages, { isUser: false, text } ]);
+  // };
 
   return (
     <div style={{
