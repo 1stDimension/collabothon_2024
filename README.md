@@ -6,11 +6,11 @@
 This repository contains the code for sth_fi$hy - AI powered dashboards for smarter banking as a part of Collabothon 2024. Web application designed to provide a customizable dashboard for banking-related information and tasks. Leveraging Google Cloud's Vertex AI Chat and Vertex Search, the application offers a powerful and intelligent user experience.
 
 # Demo
-
-Check out our demo ;)
 https://youtu.be/ClkLo2JBbmY
+This is an example of exploring our private secure cloud-hosted data stored connected to our AI model. Our model is trained on enterprise files like: pdf,  documents scanns, images and txt files as well as information collected from Commerzbank sandbox API.
 
-
+https://youtu.be/WmuFQAg3qDA
+This is our demo speech2text capabilities. The integration of our GUI is possible. However, we are thrilled to share this with you!
 # Key features
 
 <p align="center">
