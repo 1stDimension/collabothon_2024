@@ -1,4 +1,9 @@
+from pathlib import Path
+from pprint import pprint
+from tkinter import W
 from google.cloud import discoveryengine_v1beta as discoveryengine_v1
+from google.cloud import storage
+from urllib.parse import urlparse
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "lodzkiterror-65599eb0142d.json"
 
@@ -29,8 +34,24 @@ request = discoveryengine_v1.SearchRequest(
 # Send the request and get the response
 response = client.search(request)
 
+stor_client = storage.Client()
+
 # Process the response and extract the desired information
 for entity in response.results:
-    print(entity.document.derived_struct_data["link"])
+    pprint(entity)
+    if link := entity.document.derived_struct_data.get("link"):
+        print(link)
+        url = urlparse(link) 
+        path= url.path
+        host = url.hostname
+        print(f"gs path {host}:{path}")
+        bucket = host
+        blob = path
+        print(f"{bucket}:{blob}")
+        poss_link = f"https://storage.googleapis.com/{bucket}{blob}"
+        print(poss_link)
+    else:
+        print("No link in derived_struct_data")
+        pprint(entity.document)
     # for snippet in entity.document.derived_struct_data:
     #     print(snippet)
