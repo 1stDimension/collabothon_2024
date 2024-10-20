@@ -11,6 +11,9 @@ This is an example of exploring our private secure cloud-hosted data stored conn
 
 https://youtu.be/WmuFQAg3qDA
 This is our demo speech2text capabilities. The integration of our GUI is possible. However, we are thrilled to share this with you!
+
+Showing presentation of speech2text in our gui
+https://youtu.be/9_nhmpWMrXY or https://youtu.be/krjmI5iTMLw
 # Key features
 
 <p align="center">
