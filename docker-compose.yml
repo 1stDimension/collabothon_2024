@@ -17,7 +17,7 @@ services:
     depends_on:
     - collabothon-api
     - vertex-api
-    # - frontend
+    - frontend
 
   collabothon-api:
     environment:
@@ -47,16 +47,16 @@ services:
     networks:
     - backend-mesh
 
-  # frontend:
-  #   image: collabothon-frontend:latest
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   networks:
-  #   - backend-mesh
-  #   depends_on:
-  #   - collabothon-api
-  #   - vertex-api
+  frontend:
+    image: collabothon-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+    - backend-mesh
+    depends_on:
+    - collabothon-api
+    - vertex-api
 
 volumes:
   collabothon-api-data:
