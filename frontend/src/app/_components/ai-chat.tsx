@@ -86,6 +86,9 @@ async function recordAudio(transcribed: (text: string) => void, recordCallback: 
       if (silentChunks > 50) {
         console.log("silent chunk! cut!");
         recorder.disconnect();
+        volume.disconnect();
+        audioInput.disconnect();
+        analyser.disconnect();
         recordCallback();
         processAudio(pcm32, totalSampleCount, sampleRate, transcribed);
         return;
