@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ApiClient } from "../api-client";
+import { ApiClient, ISearchResult } from "../api-client";
 
 interface Props {
   active: boolean;
@@ -9,9 +9,12 @@ interface Props {
 };
 
 interface IAiMessage {
-  text: string;
+  text: string | null;
   isUser: boolean;
+  url?: string;
 }
+
+const api = new ApiClient();
 
 function mergeBuffers(channelBuffer: Float32Array[], recordingLength: number): Float32Array {
    const result = new Float32Array(recordingLength);
@@ -45,7 +48,6 @@ async function processAudio(buffers: Float32Array[], totalSampleCount: number, s
   const u16 = toPCM16(f32);
   const pcmBytes = new Uint8Array(u16.buffer, u16.byteOffset, u16.byteLength);
 
-  const api = new ApiClient();
   const transactionId = await api.requestTranscription(pcmBytes, sampleRate, 1, 16);
   const result = await api.awaitTranscription(transactionId);
   transcribed(result);
@@ -111,6 +113,11 @@ async function recordAudio(transcribed: (text: string) => void, recordCallback: 
   recorder.connect(audioContext.destination);
 }
 
+async function search(query: string): Promise<ISearchResult> {
+  const results = await api.search(query);
+  return results;
+}
+
 export default function AiChatPanel({ active, onDismiss } : Props) {
   const [ messages, setMessages ] = useState<IAiMessage[]>([]);
   const [ recording, setRecording ] = useState(false);
@@ -120,11 +127,24 @@ export default function AiChatPanel({ active, onDismiss } : Props) {
     console.log("received user message:", text);
     setIsProcessing(false);
     setMessages([ ...messages, { isUser: true, text } ]);
+
+    search(text).then(x => {
+      if (x.files.length < 1) {
+        addSystemMessage(null);
+        return;
+      }
+
+      const file = x.files[0];
+      if (!!file.snippet) {
+        // TODO: tts
+        addSystemMessage(file.snippet);
+      }
+    });
   };
-  // const addSystemMessage = (text: string) => {
-  //   console.log("received system message:", text);
-  //   setMessages([ ...messages, { isUser: false, text } ]);
-  // };
+  const addSystemMessage = (text: string | null, url?: string) => {
+    console.log("received system message:", text);
+    setMessages([ ...messages, { isUser: false, text, url } ]);
+  };
 
   return (
     <div style={{
@@ -204,7 +224,7 @@ export default function AiChatPanel({ active, onDismiss } : Props) {
             padding: '6px 18px',
             fontSize: '13pt',
             lineHeight: '36px',
-          }}>{ x.text !== null ? x.text : <i>{ "Sorry, didn't quite catch that" }</i> }</div></div>) }
+          }}>{ x.text !== null ? x.text : <i>{ x.isUser ? "Sorry, didn't quite catch that" : "Sorry, didn't find anything" }</i> }</div></div>) }
           {
             isProcessing ? <div style={{ display: "contents" }}><div style={{
               boxSizing: "border-box",

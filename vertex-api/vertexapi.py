@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, Form, WebSocket
 from fastapi.responses import StreamingResponse
-from google.cloud import speech, texttospeech
+from google.cloud import speech, texttospeech, discoveryengine_v1
 from base64 import b64encode
 from asyncio import Event, Future
 from uuid import uuid4
@@ -9,6 +9,27 @@ from typing import Optional, Union
 from functools import partial
 from os import environ
 from pydantic import BaseModel
+from html import unescape
+from html.parser import HTMLParser
+from io import StringIO
+
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs= True
+        self.text = StringIO()
+    def handle_data(self, d):
+        self.text.write(d)
+    def get_data(self):
+        return self.text.getvalue()
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(unescape(html))
+    return s.get_data()
 
 
 @dataclass
@@ -28,6 +49,19 @@ class ErrorResponse(BaseModel):
 
 class TtsRequest(BaseModel):
     text: str
+
+
+class SearchRequest(BaseModel):
+    query: str
+
+
+class SearchFile(BaseModel):
+    url: Optional[str]
+    snippet: Optional[str]
+
+
+class SearchResponse(BaseModel):
+    files: list[SearchFile]
 
 
 environ["GOOGLE_APPLICATION_CREDENTIALS"] = "lodzkiterror-65599eb0142d.json"
@@ -109,6 +143,47 @@ async def recognize_audio(
             media_type="audio/mpeg",
             headers={'Content-Disposition': 'inline; filename="tts.mp3"'}
         )
+
+    except Exception as e:
+        return ErrorResponse(error=str(e))
+
+
+@app.post("/vertex/search")
+async def search(
+    data: SearchRequest
+) -> Union[ErrorResponse, SearchResponse]:
+    try:
+        client = discoveryengine_v1.SearchServiceClient()
+        request = discoveryengine_v1.SearchRequest(
+            query=data.query,
+            page_size=10,
+            spell_correction_spec=discoveryengine_v1.SearchRequest.SpellCorrectionSpec(
+                mode=discoveryengine_v1.SearchRequest.SpellCorrectionSpec.Mode.AUTO
+            ),
+            serving_config=f"projects/lodzkiterror/locations/global/collections/default_collection/engines/genericagentingestion-glob_1729410060971/servingConfigs/default_search"
+        )
+
+        response = client.search(request)
+        files = []
+        for entity in response.results:
+            dat = entity.document.derived_struct_data
+            if "link" not in dat:
+                continue
+
+            file = dat["link"]
+            snippet = dat["snippets"][0]["snippet"] if "snippets" in dat else None
+            if snippet:
+                snippet = strip_tags(snippet)
+
+            if file and snippet:
+                files.append(
+                    SearchFile(
+                        url=("https://storage.googleapis.com/" + file[5:]) if file else None,
+                        snippet=snippet
+                    )
+                )
+
+            return SearchResponse(files=files)
 
     except Exception as e:
         return ErrorResponse(error=str(e))

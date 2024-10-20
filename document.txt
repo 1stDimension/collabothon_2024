@@ -1,0 +1,1101 @@
+{
+  "id": "1dd1b9858a92db0e83b60e55608dd9cc",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsunstructured-global_1729410041175/branches/0/documents/1dd1b9858a92db0e83b60e55608dd9cc",
+    "id": "1dd1b9858a92db0e83b60e55608dd9cc",
+    "derivedStructData": {
+      "title": "-author",
+      "snippets": [
+        {
+          "snippet_status": "SUCCESS",
+          "snippet": "HAWAIIAN <b>PIZZA</b> Italian Ham, Pineapple, Oregano, Tomatoes, Mozzarella (Serves ... <b>Pizza</b> Dough Tomato Sauce Premix 600gm Mozzarella Cheese, 350gm&nbsp;..."
+        }
+      ],
+      "link": "gs://lodzkiterror/mothers-day-hawaiian-pizza-.pdf"
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "87b27881778f32df4a9da43b61a618cb",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsstructured-global_1729409829014/branches/0/documents/87b27881778f32df4a9da43b61a618cb",
+    "id": "87b27881778f32df4a9da43b61a618cb",
+    "structData": {
+      "securitiesAccountId": "100123456700",
+      "transactions": [
+        {
+          "externalOrderNumber": "00111",
+          "blockInfo": {
+            "blockText": "Irrevocable declaration of return to the cap. inv. company",
+            "blockTo": "2019-08-01"
+          },
+          "marketValue": {
+            "amount": 111.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000001111EUR",
+          "executionNumber": 99.0,
+          "valutaDate": "1972-01-20",
+          "bookingDate": "1972-01-20",
+          "price": {
+            "unit": "%",
+            "amount": 102.74
+          },
+          "exchangeRate": 1.0,
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000001111"
+          },
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10111",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer1111",
+                  "en": "Capital yield tax1111"
+                },
+                "amount": {
+                  "currency": "EUR",
+                  "amount": 111.44
+                }
+              }
+            ]
+          },
+          "settlementNumber": "+001000111",
+          "tradingPlatform": "NULL",
+          "tradingTimestamp": "1972-01-20T08:31:41",
+          "cancellationInfo": {
+            "cancelledTransactionId": "cancelledTransactionId Test"
+          },
+          "costs": [
+            {
+              "money": {
+                "amount": -35.0,
+                "currency": "EUR"
+              },
+              "costDescription": "Transaction fee / Xetra fee"
+            }
+          ],
+          "depository": "Collective custody account",
+          "size": {
+            "unit": "EUR",
+            "amount": 3000.0
+          },
+          "transactionId": "9097189432006000999",
+          "transactionType": {
+            "id": "NULL",
+            "name": "deposit"
+          },
+          "positionId": "positionId Test",
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "tradingDate": "1972-01-20",
+          "actualAmount": {
+            "currency": "EUR",
+            "amount": 111.33
+          },
+          "masterdata": {
+            "wkn": "A161MH",
+            "isin": "XS1250867642",
+            "notationType": "PERCENT",
+            "name": "DT.WOHNEN ANL 15/20"
+          },
+          "accruedInterest": {
+            "currency": "EUR",
+            "amount": 1.23
+          },
+          "clientOrderId": "D0000000000001111M"
+        },
+        {
+          "blockInfo": {
+            "blockText": "Minimum holding period of 24 months without exemption limit",
+            "blockTo": "2018-08-01"
+          },
+          "clientOrderId": "D0000000000008999M",
+          "marketValue": {
+            "amount": 99.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000000999EUR",
+          "executionNumber": 99.0,
+          "valutaDate": "2018-01-23",
+          "settlementNumber": "+001000099",
+          "price": {
+            "unit": "EUR",
+            "amount": 8954.0
+          },
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10099",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer999",
+                  "en": "Capital yield tax999"
+                },
+                "amount": {
+                  "currency": "EUR",
+                  "amount": 99.44
+                }
+              }
+            ]
+          },
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE65362800710000000999"
+          },
+          "tradingPlatform": "AUSLAND/AUSSERBOERSLICH",
+          "bookingDate": "2018-01-23",
+          "exchangeRate": 1.0,
+          "tradingTimestamp": "2018-01-23T00:00:00",
+          "costs": [
+            {
+              "money": {
+                "amount": -3.0,
+                "currency": "EUR"
+              },
+              "costDescription": "Commission"
+            }
+          ],
+          "cancellationInfo": {
+            "cancelledTransactionId": "null"
+          },
+          "depository": "Switzerland (AKV)",
+          "size": {
+            "unit": "pieces",
+            "amount": 100.0
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "transactionType": {
+            "id": "NULL",
+            "name": "sale"
+          },
+          "transactionId": "5566480817006007654",
+          "actualAmount": {
+            "amount": 99.33,
+            "currency": "EUR"
+          },
+          "tradingDate": "2018-01-23",
+          "masterdata": {
+            "wkn": "8231212",
+            "isin": "DE0008232125",
+            "notationType": "PIECE",
+            "name": "Deutsche Lufthansa AG"
+          },
+          "accruedInterest": {
+            "currency": "EUR",
+            "amount": 0.0
+          },
+          "externalOrderNumber": "00099"
+        },
+        {
+          "externalOrderNumber": "00088",
+          "masterdata": {
+            "wkn": "8231212",
+            "isin": "DE0008232125",
+            "notationType": "PIECE",
+            "name": "Deutsche Lufthansa AG"
+          },
+          "marketValue": {
+            "amount": 88.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000000888EUR",
+          "executionNumber": 88.0,
+          "valutaDate": "2018-01-24",
+          "bookingDate": "2018-01-24",
+          "tradingPlatform": "NULL",
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10088",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer888",
+                  "en": "Capital yield tax888"
+                },
+                "amount": {
+                  "currency": "EUR",
+                  "amount": 88.44
+                }
+              }
+            ]
+          },
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE65362800710000000888"
+          },
+          "exchangeRate": 1.0,
+          "price": {
+            "unit": "EUR",
+            "amount": 17908.0
+          },
+          "settlementNumber": "+001000088",
+          "tradingTimestamp": "2018-01-24T08:31:41",
+          "costs": [
+            {
+              "money": {
+                "currency": "EUR",
+                "amount": -35.0
+              },
+              "costDescription": "Transaction fee / Xetra fee"
+            }
+          ],
+          "cancellationInfo": {
+            "cancelledTransactionId": "null"
+          },
+          "depository": "Collective custody account",
+          "size": {
+            "unit": "pieces",
+            "amount": 200.0
+          },
+          "transactionId": "1654230882735000076",
+          "transactionType": {
+            "id": "NULL",
+            "name": "sale"
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "tradingDate": "2018-01-24",
+          "actualAmount": {
+            "currency": "EUR",
+            "amount": 88.33
+          },
+          "blockInfo": {
+            "blockText": "Irrevocable declaration of return to the cap. inv. company",
+            "blockTo": "2019-08-01"
+          },
+          "accruedInterest": {
+            "currency": "EUR",
+            "amount": 0.0
+          },
+          "clientOrderId": "D0000000000008888M"
+        },
+        {
+          "clientOrderId": "D000000000000777M",
+          "blockInfo": {
+            "blockText": "Minimum holding period of 24 months without exemption limit",
+            "blockTo": "2018-08-01"
+          },
+          "marketValue": {
+            "amount": 77.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000000777EUR",
+          "executionNumber": 92.0,
+          "valutaDate": "2018-03-25",
+          "bookingDate": "2018-01-25",
+          "price": {
+            "unit": "EUR",
+            "amount": 17908.0
+          },
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10077",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer777",
+                  "en": "Capital yield tax777"
+                },
+                "amount": {
+                  "amount": 77.44,
+                  "currency": "EUR"
+                }
+              }
+            ]
+          },
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000000777"
+          },
+          "exchangeRate": 1.0,
+          "settlementNumber": "+001000077",
+          "tradingPlatform": "AUSLAND/AUSSERBOERSLICH",
+          "tradingTimestamp": "2018-01-25T00:00:00",
+          "costs": [
+            {
+              "money": {
+                "currency": "EUR",
+                "amount": -3.0
+              },
+              "costDescription": "Commission"
+            }
+          ],
+          "cancellationInfo": {
+            "cancelledTransactionId": "4201808780060034560"
+          },
+          "depository": "Switzerland (AKV)",
+          "size": {
+            "unit": "pieces",
+            "amount": 200.0
+          },
+          "transactionId": "4201808780060034560:CANCELLATION",
+          "transactionType": {
+            "id": "NULL",
+            "name": "purchase"
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "tradingDate": "2018-01-25",
+          "actualAmount": {
+            "amount": 77.33,
+            "currency": "EUR"
+          },
+          "masterdata": {
+            "wkn": "8231212",
+            "isin": "DE0008232125",
+            "notationType": "PIECE",
+            "name": "Deutsche Lufthansa AG"
+          },
+          "accruedInterest": {
+            "currency": "EUR",
+            "amount": 0.0
+          },
+          "externalOrderNumber": "00077"
+        },
+        {
+          "clientOrderId": "D000000000000444M",
+          "masterdata": {
+            "wkn": "CBK100",
+            "isin": "DE000CBK1001",
+            "notationType": "PIECE",
+            "name": "Commerzbank AG"
+          },
+          "marketValue": {
+            "currency": "EUR",
+            "amount": 66.22
+          },
+          "settlementAccount": "100000000666EUR",
+          "executionNumber": 92.0,
+          "valutaDate": "2018-01-29",
+          "settlementNumber": "+001000066",
+          "tradingPlatform": "NULL",
+          "exchangeRate": 1.0,
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000000666"
+          },
+          "bookingDate": "2018-01-26",
+          "price": {
+            "unit": "EUR",
+            "amount": 220.0
+          },
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10044",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer666",
+                  "en": "Capital yield tax666"
+                },
+                "amount": {
+                  "amount": 66.44,
+                  "currency": "EUR"
+                }
+              }
+            ]
+          },
+          "tradingTimestamp": "2018-01-26T08:31:41",
+          "cancellationInfo": {
+            "cancelledTransactionId": "8773180974006000015"
+          },
+          "costs": [
+            {
+              "money": {
+                "currency": "EUR",
+                "amount": -35.0
+              },
+              "costDescription": "Transaction fee / Xetra fee"
+            }
+          ],
+          "depository": "Collective custody account",
+          "size": {
+            "unit": "pieces",
+            "amount": 30.0
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "transactionType": {
+            "id": "NULL",
+            "name": "purchase"
+          },
+          "transactionId": "8773180974006000015:CANCELLATION",
+          "actualAmount": {
+            "amount": 66.33,
+            "currency": "EUR"
+          },
+          "tradingDate": "2018-01-26",
+          "blockInfo": {
+            "blockText": "Irrevocable declaration of return to the cap. inv. company",
+            "blockTo": "2019-08-01"
+          },
+          "accruedInterest": {
+            "currency": "EUR",
+            "amount": 0.0
+          },
+          "externalOrderNumber": "00066"
+        },
+        {
+          "masterdata": {
+            "wkn": "8231212",
+            "isin": "DE0008232125",
+            "notationType": "PIECE",
+            "name": "Deutsche Lufthansa AG"
+          },
+          "externalOrderNumber": "00099",
+          "marketValue": {
+            "amount": 55.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000000077EUR",
+          "executionNumber": 92.0,
+          "valutaDate": "2018-02-27",
+          "settlementNumber": "+001000078",
+          "tradingPlatform": "NULL",
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10007",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer555",
+                  "en": "Capital yield tax555"
+                },
+                "amount": {
+                  "currency": "EUR",
+                  "amount": 55.44
+                }
+              }
+            ]
+          },
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000000077"
+          },
+          "bookingDate": "2018-01-27",
+          "exchangeRate": 1.0,
+          "price": {
+            "unit": "EUR",
+            "amount": 8954.0
+          },
+          "tradingTimestamp": "2018-01-27T08:31:41",
+          "costs": [
+            {
+              "money": {
+                "amount": -35.0,
+                "currency": "EUR"
+              },
+              "costDescription": "Transaction fee / Xetra fee"
+            }
+          ],
+          "cancellationInfo": {
+            "cancelledTransactionId": "0985400844332000255"
+          },
+          "depository": "Collective custody account",
+          "size": {
+            "unit": "pieces",
+            "amount": 100.0
+          },
+          "transactionId": "0985400844332000255:CANCELLATION",
+          "transactionType": {
+            "id": "NULL",
+            "name": "purchase"
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "tradingDate": "2018-01-27",
+          "actualAmount": {
+            "amount": 55.33,
+            "currency": "EUR"
+          },
+          "blockInfo": {
+            "blockText": "Irrevocable declaration of return to the cap. inv. company",
+            "blockTo": "2019-08-01"
+          },
+          "accruedInterest": {
+            "amount": 0.0,
+            "currency": "EUR"
+          },
+          "clientOrderId": "D000000000000333M"
+        },
+        {
+          "masterdata": {
+            "wkn": "850628",
+            "isin": "US46625H1005",
+            "notationType": "PIECE",
+            "name": "JPMorgan Chase"
+          },
+          "externalOrderNumber": "00001",
+          "marketValue": {
+            "currency": "EUR",
+            "amount": 44.22
+          },
+          "settlementAccount": "100000000066EUR",
+          "executionNumber": 93.0,
+          "valutaDate": "1973-03-30",
+          "bookingDate": "1973-01-30",
+          "price": {
+            "unit": "USD",
+            "amount": 210.7
+          },
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10007",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer333",
+                  "en": "Capital yield tax333"
+                },
+                "amount": {
+                  "amount": 44.44,
+                  "currency": "EUR"
+                }
+              }
+            ]
+          },
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000000066"
+          },
+          "exchangeRate": 0.864,
+          "settlementNumber": "+001000056",
+          "tradingPlatform": "AUSLAND/AUSSERBOERSLICH",
+          "tradingTimestamp": "1973-01-30T00:00:00",
+          "cancellationInfo": {
+            "cancelledTransactionId": "null"
+          },
+          "costs": [
+            {
+              "money": {
+                "currency": "EUR",
+                "amount": -3.0
+              },
+              "costDescription": "Commission"
+            }
+          ],
+          "depository": "Switzerland (AKV)",
+          "size": {
+            "unit": "pieces",
+            "amount": 2.0
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "transactionType": {
+            "id": "NULL",
+            "name": "deposit"
+          },
+          "transactionId": "9344550817006004532",
+          "actualAmount": {
+            "currency": "EUR",
+            "amount": 44.33
+          },
+          "tradingDate": "1973-01-30",
+          "blockInfo": {
+            "blockText": "Minimum holding period of 24 months without exemption limit",
+            "blockTo": "2018-08-01"
+          },
+          "accruedInterest": {
+            "amount": 0.0,
+            "currency": "EUR"
+          },
+          "clientOrderId": "D000000000000333M"
+        },
+        {
+          "externalOrderNumber": "00001",
+          "masterdata": {
+            "wkn": "8231212",
+            "isin": "DE0008232125",
+            "notationType": "PIECE",
+            "name": "Deutsche Lufthansa AG"
+          },
+          "marketValue": {
+            "amount": 33.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000000055EUR",
+          "executionNumber": 94.0,
+          "valutaDate": "2007-02-27",
+          "settlementNumber": "+001000034",
+          "tradingPlatform": "NULL",
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10007",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer222",
+                  "en": "Capital yield tax222"
+                },
+                "amount": {
+                  "currency": "EUR",
+                  "amount": 33.44
+                }
+              }
+            ]
+          },
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000000055"
+          },
+          "exchangeRate": 1.0,
+          "bookingDate": "2007-01-27",
+          "price": {
+            "unit": "EUR",
+            "amount": 22385.0
+          },
+          "tradingTimestamp": "2007-01-27T08:31:41",
+          "cancellationInfo": {
+            "cancelledTransactionId": "null"
+          },
+          "costs": [
+            {
+              "money": {
+                "currency": "EUR",
+                "amount": -35.0
+              },
+              "costDescription": "Transaction fee / Xetra fee"
+            }
+          ],
+          "depository": "Collective custody account",
+          "size": {
+            "unit": "pieces",
+            "amount": 250.0
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "transactionType": {
+            "id": "NULL",
+            "name": "delivery"
+          },
+          "transactionId": "3230180833230000777",
+          "actualAmount": {
+            "amount": 33.33,
+            "currency": "EUR"
+          },
+          "tradingDate": "2007-01-27",
+          "blockInfo": {
+            "blockText": "Irrevocable declaration of return to the cap. inv. company",
+            "blockTo": "2019-08-01"
+          },
+          "accruedInterest": {
+            "amount": 0.0,
+            "currency": "EUR"
+          },
+          "clientOrderId": "D000000000000222M"
+        },
+        {
+          "externalOrderNumber": "00001",
+          "masterdata": {
+            "wkn": "7100000",
+            "isin": "DE0007100000",
+            "notationType": "PIECE",
+            "name": "Daimler Ag"
+          },
+          "marketValue": {
+            "amount": 22.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000000055EUR",
+          "executionNumber": 96.0,
+          "valutaDate": "2016-01-30",
+          "settlementNumber": "+001000012",
+          "tradingPlatform": "NULL",
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10006",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer111",
+                  "en": "Capital yield tax111"
+                },
+                "amount": {
+                  "currency": "EUR",
+                  "amount": 22.44
+                }
+              }
+            ]
+          },
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000000055"
+          },
+          "exchangeRate": 1.0,
+          "price": {
+            "unit": "EUR",
+            "amount": 78540.0
+          },
+          "bookingDate": "2016-01-23",
+          "tradingTimestamp": "2016-01-23T08:31:41",
+          "costs": [
+            {
+              "money": {
+                "amount": -35.0,
+                "currency": "EUR"
+              },
+              "costDescription": "Transaction fee / Xetra fee"
+            }
+          ],
+          "cancellationInfo": {
+            "cancelledTransactionId": "null"
+          },
+          "depository": "Collective custody account",
+          "size": {
+            "unit": "pieces",
+            "amount": 1500.0
+          },
+          "transactionId": "0850043028802774022",
+          "transactionType": {
+            "id": "NULL",
+            "name": "deposit"
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "actualAmount": {
+            "amount": 22.33,
+            "currency": "EUR"
+          },
+          "tradingDate": "2016-01-23",
+          "blockInfo": {
+            "blockText": "Irrevocable declaration of return to the cap. inv. company",
+            "blockTo": "2019-08-01"
+          },
+          "accruedInterest": {
+            "currency": "EUR",
+            "amount": 0.0
+          },
+          "clientOrderId": "D0000000000000OM"
+        },
+        {
+          "clientOrderId": "D0000000000000OM",
+          "masterdata": {
+            "wkn": "CBK103",
+            "isin": "DE000CBK1004",
+            "notationType": "PIECE",
+            "name": "Commerzbank AG"
+          },
+          "marketValue": {
+            "amount": 11.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000000000EUR",
+          "executionNumber": 97.0,
+          "valutaDate": "2018-01-30",
+          "bookingDate": "2018-01-25",
+          "tradingPlatform": "NULL",
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10005",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer",
+                  "en": "Capital yield tax"
+                },
+                "amount": {
+                  "currency": "EUR",
+                  "amount": 11.44
+                }
+              }
+            ]
+          },
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000000000"
+          },
+          "price": {
+            "unit": "EUR",
+            "amount": 3803.0
+          },
+          "exchangeRate": 1.0,
+          "settlementNumber": "+001000012",
+          "tradingTimestamp": "2018-01-25T08:31:41",
+          "costs": [
+            {
+              "money": {
+                "currency": "EUR",
+                "amount": -35.0
+              },
+              "costDescription": "Transaction fee / Xetra fee"
+            }
+          ],
+          "cancellationInfo": {
+            "cancelledTransactionId": "8753332566772286543"
+          },
+          "depository": "Collective custody account",
+          "size": {
+            "unit": "pieces",
+            "amount": 503.0
+          },
+          "transactionId": "8753332566772286543:CANCELLATION",
+          "transactionType": {
+            "id": "NULL",
+            "name": "purchase"
+          },
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "tradingDate": "2018-01-25",
+          "actualAmount": {
+            "amount": 11.33,
+            "currency": "EUR"
+          },
+          "blockInfo": {
+            "blockText": "Irrevocable declaration of return to the cap. inv. company",
+            "blockTo": "2019-08-01"
+          },
+          "accruedInterest": {
+            "currency": "EUR",
+            "amount": 0.0
+          },
+          "externalOrderNumber": "00001"
+        }
+      ]
+    },
+    "derivedStructData": {
+      "snippets": [
+        {
+          "snippet_status": "NO_SNIPPET_AVAILABLE",
+          "snippet": "No snippet is available for this page."
+        }
+      ]
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "c4f776f3a5cd52525b24204eadd3ae35",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsstructured-global_1729409829014/branches/0/documents/c4f776f3a5cd52525b24204eadd3ae35",
+    "id": "c4f776f3a5cd52525b24204eadd3ae35",
+    "structData": {
+      "securitiesAccountId": "100123456702",
+      "transactions": [
+        {
+          "externalOrderNumber": "00099",
+          "masterdata": {
+            "wkn": "null",
+            "isin": "DE0007100000",
+            "notationType": "PIECE",
+            "name": "Daimler"
+          },
+          "marketValue": {
+            "amount": 99.22,
+            "currency": "EUR"
+          },
+          "settlementAccount": "100000000999EUR",
+          "executionNumber": 90.0,
+          "valutaDate": "2019-02-21",
+          "bookingDate": "2019-02-21",
+          "price": {
+            "unit": "EUR",
+            "amount": 51.5
+          },
+          "exchangeRate": 1.0,
+          "settlementAccountReference": {
+            "currency": "EUR",
+            "iban": "DE10100400000000000999"
+          },
+          "taxDetails": {
+            "taxes": [
+              {
+                "taxType": "10099",
+                "taxTypeDescription": {
+                  "de": "Kapitalertragsteuer999",
+                  "en": "Capital yield tax999"
+                },
+                "amount": {
+                  "amount": 99.44,
+                  "currency": "EUR"
+                }
+              }
+            ]
+          },
+          "tradingPlatform": "FRANKFURT/AUSSERBOERSLICH",
+          "settlementNumber": "+001000099",
+          "tradingTimestamp": "2019-02-21T08:31:41",
+          "costs": [
+            {
+              "money": {
+                "amount": -35.0,
+                "currency": "EUR"
+              },
+              "costDescription": "Transaction fee / Xetra fee"
+            }
+          ],
+          "cancellationInfo": {
+            "cancelledTransactionId": "cancelledTransactionId Test"
+          },
+          "depository": "Collective custody account",
+          "size": {
+            "unit": "pieces",
+            "amount": 10.0
+          },
+          "transactionId": "9097189432006000999",
+          "transactionType": {
+            "id": "NULL",
+            "name": "purchase"
+          },
+          "positionId": "positionId Test",
+          "transactionDetailedType": "PURCHASE_CLEARING",
+          "actualAmount": {
+            "currency": "EUR",
+            "amount": 99.33
+          },
+          "tradingDate": "2019-02-21",
+          "blockInfo": {
+            "blockText": "Irrevocable declaration of return to the cap. inv. company",
+            "blockTo": "2020-08-01"
+          },
+          "accruedInterest": {
+            "currency": "EUR",
+            "amount": 1.23
+          },
+          "clientOrderId": "D0000000000008999M"
+        }
+      ]
+    },
+    "derivedStructData": {
+      "snippets": [
+        {
+          "snippet_status": "NO_SNIPPET_AVAILABLE",
+          "snippet": "No snippet is available for this page."
+        }
+      ]
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "ba8c19e6fd54d1b939d5dcd2cb9f5227",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsstructured-global_1729409829014/branches/0/documents/ba8c19e6fd54d1b939d5dcd2cb9f5227",
+    "id": "ba8c19e6fd54d1b939d5dcd2cb9f5227",
+    "structData": {
+      "securitiesAccountId": "100123456701",
+      "transactions": []
+    },
+    "derivedStructData": {
+      "snippets": [
+        {
+          "snippet_status": "NO_SNIPPET_AVAILABLE",
+          "snippet": "No snippet is available for this page."
+        }
+      ]
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "6381b9aad287be0f5c46dd8acba623b4",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsunstructured-global_1729410041175/branches/0/documents/6381b9aad287be0f5c46dd8acba623b4",
+    "id": "6381b9aad287be0f5c46dd8acba623b4",
+    "derivedStructData": {
+      "title": "Coba AT1 2024_Base Prospectus_final",
+      "snippets": [
+        {
+          "snippet_status": "SUCCESS",
+          "snippet": "... <b>make</b> Interest Payments in full or in part or any other amount falling due ... <b>make</b> payments on the Notes (which could affect the trading price of the&nbsp;..."
+        }
+      ],
+      "link": "gs://lodzkiterror/Coba AT1 2024_Base Prospectus_final.pdf"
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "f5e700164775cb05384b0e167217dc7b",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsunstructured-global_1729410041175/branches/0/documents/f5e700164775cb05384b0e167217dc7b",
+    "id": "f5e700164775cb05384b0e167217dc7b",
+    "derivedStructData": {
+      "title": "Commerzbank Group_Annual Report 2023",
+      "snippets": [
+        {
+          "snippet_status": "SUCCESS",
+          "snippet": "... <b>make</b> more than one half a billion euros available per year for ... And because we know what we <b>have</b> to <b>do</b> to <b>make</b> sure things stay this way. We&nbsp;..."
+        }
+      ],
+      "link": "gs://lodzkiterror/Commerzbank Group_Annual Report 2023.pdf"
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "2b42f1339fab3eaef30d35ba285edafb",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsunstructured-global_1729410041175/branches/0/documents/2b42f1339fab3eaef30d35ba285edafb",
+    "id": "2b42f1339fab3eaef30d35ba285edafb",
+    "derivedStructData": {
+      "title": "CoBa_DIP_2024_Final_Terms_Serie_1053_final",
+      "snippets": [
+        {
+          "snippet_status": "SUCCESS",
+          "snippet": "If the Issuer is required by law to <b>make</b> any such deduction or withholding on payments of interest (but not in respect of the payment of any principal in&nbsp;..."
+        }
+      ],
+      "link": "gs://lodzkiterror/CoBa_DIP_2024_Final_Terms_Serie_1053_final.pdf"
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "107ba58c53414ea31bc8cedbc7044afc",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsunstructured-global_1729410041175/branches/0/documents/107ba58c53414ea31bc8cedbc7044afc",
+    "id": "107ba58c53414ea31bc8cedbc7044afc",
+    "derivedStructData": {
+      "title": "https://linklaters-my.sharepoint.com/personal/rowina_ullner_linklaters_com/Documents/From-WorkFolders/Commerzbank/Updates/DIP Update 2024/CSSF/Filing for approval/CoBa DIP 2024_Base Prospectus_filing for approval(3037962816.60)",
+      "snippets": [
+        {
+          "snippet_status": "SUCCESS",
+          "snippet": "... <b>make</b> interest and/or redemption payments that the Issuer is obliged to <b>make</b> under the Notes. The worse the creditworthiness of the Issuer, the higher the&nbsp;..."
+        }
+      ],
+      "link": "gs://lodzkiterror/Coba EMTN 2024_Base Prospectus_final.pdf"
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "7e3d5f7a06421a35ee261626b07a7abd",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsunstructured-global_1729410041175/branches/0/documents/7e3d5f7a06421a35ee261626b07a7abd",
+    "id": "7e3d5f7a06421a35ee261626b07a7abd",
+    "derivedStructData": {
+      "title": "CoBa_EMTN_2024_Final_Terms_DE000CZ45YR7",
+      "snippets": [
+        {
+          "snippet_status": "SUCCESS",
+          "snippet": "If the Issuer is required by law to <b>make</b> any such deduction or withholding on payments of interest (but not in respect of the payment of any principal in&nbsp;..."
+        }
+      ],
+      "link": "gs://lodzkiterror/CoBa_EMTN_2024_Final_Terms_DE000CZ45YR7.pdf"
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}
+{
+  "id": "a4aa6448eb7e1228b13803ce0624496c",
+  "document": {
+    "name": "projects/546346891690/locations/global/collections/default_collection/dataStores/dsunstructured-global_1729410041175/branches/0/documents/a4aa6448eb7e1228b13803ce0624496c",
+    "id": "a4aa6448eb7e1228b13803ce0624496c",
+    "derivedStructData": {
+      "title": "HouseStyle",
+      "snippets": [
+        {
+          "snippet_status": "SUCCESS",
+          "snippet": "If the Issuer is required by law to <b>make</b> any such deduction or withholding on payments of interest (but not in respect of the payment of any principal in&nbsp;..."
+        }
+      ],
+      "link": "gs://lodzkiterror/Coba_EMTN_1055_Final_Terms_EC.pdf"
+    },
+    "schemaId": "",
+    "parentDocumentId": ""
+  },
+  "modelScores": {}
+}

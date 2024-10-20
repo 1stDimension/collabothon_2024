@@ -1,11 +1,26 @@
-from pathlib import Path
-from pprint import pprint
-from tkinter import W
-from google.cloud import discoveryengine_v1beta as discoveryengine_v1
-from google.cloud import storage
-from urllib.parse import urlparse
+from google.cloud import discoveryengine_v1
+from html import unescape
+from html.parser import HTMLParser
+from io import StringIO
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "lodzkiterror-65599eb0142d.json"
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs= True
+        self.text = StringIO()
+    def handle_data(self, d):
+        self.text.write(d)
+    def get_data(self):
+        return self.text.getvalue()
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
 
 # Replace these placeholders with your actual values
 project_id = "lodzkiterror"
@@ -38,29 +53,10 @@ stor_client = storage.Client()
 
 # Process the response and extract the desired information
 for entity in response.results:
-    pprint(entity)
-
-    if link := entity.document.derived_struct_data.get("link"):
-        print(link)
-        url = urlparse(link) 
-        path= url.path
-        host = url.hostname
-        print(f"gs path {host}:{path}")
-        bucket = host
-        blob = path
-        print(f"{bucket}:{blob}")
-        poss_link = f"https://storage.googleapis.com/{bucket}{blob}"
-        print(poss_link)
+    dat = entity.document.derived_struct_data
+    if "link" in dat:
+        print("FOUND:", dat["link"])
+        if "snippets" in dat:
+            print("SNIPPET:", strip_tags(unescape(dat["snippets"][0]["snippet"])))
     else:
-
-        print("No link in derived_struct_data")
-        pprint(entity.document)
-
-    # if snip := entity.document.derived_struct_data.get("snippets"):
-        # summary = snip.get("snippet")
-        # is_found = snip.get
-        # print(summary)
-        # print(snip)
-    
-    # for snippet in entity.document.derived_struct_data:
-    #     print(snippet)
+        print("NO LINK")

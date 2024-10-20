@@ -1,12 +1,21 @@
-interface IRecognizeResponse {
+export interface IRecognizeResponse {
   transactionId: string;
 }
 
-interface IRecognizeResult {
+export interface IRecognizeResult {
   text: string;
 }
 
 export type TranscriptionCallback = (text: string) => void;
+
+export interface ISearchFile {
+  url: string;
+  snippet: string;
+}
+
+export interface ISearchResult {
+  files: ISearchFile[];
+}
 
 export class ApiClient {
   async requestTranscription(pcm: Uint8Array, sampleRate: number, channels: number, resolution: number): Promise<string> {
@@ -37,6 +46,20 @@ export class ApiClient {
       };
     });
 
+    return result;
+  }
+
+  async search(query: string): Promise<ISearchResult> {
+    const response = await fetch("/vertex/search", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    const result = await response.json() as ISearchResult;
     return result;
   }
 };
