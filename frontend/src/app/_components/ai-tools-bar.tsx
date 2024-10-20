@@ -1,7 +1,13 @@
+"use client";
+
 import Image from 'next/image';
 import { AiPoweredSearchButton, AskAiAssistantButton } from '@/app/_components/buttons';
 
-export default function AiToolsBar() {
+interface Props {
+  onActivateAi: () => void;
+};
+
+export default function AiToolsBar({ onActivateAi }: Props) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex gap-4 items-center">
@@ -10,7 +16,7 @@ export default function AiToolsBar() {
       </div>
       <div className="flex gap-2 items-center">
         <AiPoweredSearchButton />
-        <AskAiAssistantButton />
+        <AskAiAssistantButton onClick={ () => onActivateAi() } />
       </div>
     </div>
   );

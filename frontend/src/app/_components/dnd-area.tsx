@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useState} from 'react';
-import {DndContext} from '@dnd-kit/core';
+import {DndContext, DragOverEvent} from '@dnd-kit/core';
 
 import {Droppable} from './dropable';
 import {Draggable} from './draggable';
@@ -21,7 +21,7 @@ export default function DndArea() {
     </DndContext>
   );
 
-  function handleDragEnd(event) {
+  function handleDragEnd(event: DragOverEvent) {
     if (event.over && event.over.id === 'droppable') {
       setIsDropped(true);
     }

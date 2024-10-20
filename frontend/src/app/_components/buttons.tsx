@@ -1,3 +1,5 @@
+"use client";
+
 import Image from 'next/image';
 
 export function NewDashboardButton() {
@@ -34,9 +36,14 @@ export function AiPoweredSearchButton() {
   );
 }
 
-export function AskAiAssistantButton() {
+interface AiButtonProps {
+  onClick: () => void;
+};
+
+export function AskAiAssistantButton({ onClick }: AiButtonProps) {
   return (
-    <button className="h-[48px] flex items-center bg-[#A1FFCE] text-[#002F3F] font-bold px-4 py-2 rounded-[8px] border border-[#53FF7F] hover:bg-[#53FF7F]">
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    <button className="h-[48px] flex items-center bg-[#A1FFCE] text-[#002F3F] font-bold px-4 py-2 rounded-[8px] border border-[#53FF7F] hover:bg-[#53FF7F]" onClick={onClick}>
       <span className="mr-2">✨</span>
       Ask your AI assistant
     </button>
