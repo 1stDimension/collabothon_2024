@@ -39,6 +39,7 @@ stor_client = storage.Client()
 # Process the response and extract the desired information
 for entity in response.results:
     pprint(entity)
+
     if link := entity.document.derived_struct_data.get("link"):
         print(link)
         url = urlparse(link) 
@@ -51,7 +52,15 @@ for entity in response.results:
         poss_link = f"https://storage.googleapis.com/{bucket}{blob}"
         print(poss_link)
     else:
+
         print("No link in derived_struct_data")
         pprint(entity.document)
+
+    # if snip := entity.document.derived_struct_data.get("snippets"):
+        # summary = snip.get("snippet")
+        # is_found = snip.get
+        # print(summary)
+        # print(snip)
+    
     # for snippet in entity.document.derived_struct_data:
     #     print(snippet)
