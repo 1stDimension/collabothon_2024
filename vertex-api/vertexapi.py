@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, Form, WebSocket
-from google.cloud import speech
+from fastapi.responses import StreamingResponse
+from google.cloud import speech, texttospeech
 from base64 import b64encode
 from asyncio import Event, Future
 from uuid import uuid4
@@ -23,6 +24,10 @@ class RecognitionResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     error: str
+
+
+class TtsRequest(BaseModel):
+    text: str
 
 
 environ["GOOGLE_APPLICATION_CREDENTIALS"] = "lodzkiterror-65599eb0142d.json"
@@ -73,6 +78,42 @@ async def recognize_audio(
         return ErrorResponse(error=str(e))
 
 
+@app.post("/vertex/tts")
+async def recognize_audio(
+    data: TtsRequest
+):
+    """
+    Endpoint for turning speech into PCM data.
+    """
+    global TRANSACTIONS
+
+    try:
+        client = texttospeech.TextToSpeechClient()
+        input_text = texttospeech.SynthesisInput(text=data.text)
+        voice = texttospeech.VoiceSelectionParams(
+            language_code="en-US",
+            name="en-US-Studio-O",
+        )
+
+        audio_config = texttospeech.AudioConfig(
+            audio_encoding=texttospeech.AudioEncoding.LINEAR16,
+            speaking_rate=1
+        )
+
+        response = client.synthesize_speech(
+            request={"input": input_text, "voice": voice, "audio_config": audio_config}
+        )
+
+        return StreamingResponse(
+            _stream_file(response.audio_content),
+            media_type="audio/mpeg",
+            headers={'Content-Disposition': 'inline; filename="tts.mp3"'}
+        )
+
+    except Exception as e:
+        return ErrorResponse(error=str(e))
+
+
 @app.websocket("/vertex/notify/{transactionId}")
 async def notify_socket(websocket: WebSocket, transactionId: str):
     global TRANSACTIONS
@@ -98,3 +139,7 @@ def _recognize_callback(data: RecognizeData, future: Future):
             data.result = transcript if confidence > conf else data.result
 
     data.event.set()
+
+
+def _stream_file(data: bytes):
+    yield data
