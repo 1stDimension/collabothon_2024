@@ -1,21 +1,34 @@
 'use client';
 
-import React from 'react';
-import {useDraggable} from '@dnd-kit/core';
+import React, { useState } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { ReactProps } from '../types';
+import { DndContext, DragOverlay } from '@dnd-kit/core';
 
-export function Draggable(props: ReactProps) {
-  const {attributes, listeners, setNodeRef, transform} = useDraggable({
-    id: 'draggable',
+export function Draggable({ id, children }: ReactProps & { id: string }) {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id
   });
-  const style = transform ? {
-    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-  } : undefined;
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   return (
-    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      {props.children}
-    </button>
+    <DndContext
+      onDragStart={({ active }) => setActiveId(active.id)}
+      onDragEnd={() => setActiveId(null)}
+    >
+      <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+        {children}
+      </div>
+      <DragOverlay>
+        {activeId ? <div>{children}</div> : null}
+      </DragOverlay>
+    </DndContext>
   );
 }

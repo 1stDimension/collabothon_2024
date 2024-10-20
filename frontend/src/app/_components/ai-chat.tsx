@@ -16,12 +16,12 @@ interface IAiMessage {
 function mergeBuffers(channelBuffer: Float32Array[], recordingLength: number): Float32Array {
    const result = new Float32Array(recordingLength);
    let offset = 0;
- 
+
    for (let i = 0; i < channelBuffer.length; i++) {
        result.set(channelBuffer[i], offset);
        offset += channelBuffer[i].length;
    }
- 
+
    return result.slice();
 }
 
@@ -33,7 +33,7 @@ function toPCM16(samples: Float32Array): Uint16Array {
      let val = Math.floor(32767 * samples[i]);
      val = Math.min(32767, val);
      val = Math.max(-32768, val);
-   
+
      PCM16iSamples.push(val);
   }
 
@@ -98,7 +98,7 @@ async function recordAudio(transcribed: (text: string) => void, recordCallback: 
     window.requestAnimationFrame(detectSound);
   };
   window.requestAnimationFrame(detectSound);
-  
+
   const recorder = audioContext.createScriptProcessor(2048, 1, 1);
   recorder.onaudioprocess = e => {
     const samples = e.inputBuffer.getChannelData(0);
@@ -111,7 +111,7 @@ async function recordAudio(transcribed: (text: string) => void, recordCallback: 
   recorder.connect(audioContext.destination);
 }
 
-export default function AiChatPane({ active, onDismiss } : Props) {
+export default function AiChatPanel({ active, onDismiss } : Props) {
   const [ messages, setMessages ] = useState<IAiMessage[]>([]);
   const [ recording, setRecording ] = useState(false);
   const [ userInput, setUserInput ] = useState("");
@@ -189,7 +189,7 @@ export default function AiChatPane({ active, onDismiss } : Props) {
           gap: "20px 8px",
           alignItems: "end",
         }}>
-          { messages.map((x, i) => <div key={i} style={{ display: "contents" }}><div style={{ 
+          { messages.map((x, i) => <div key={i} style={{ display: "contents" }}><div style={{
             boxSizing: "border-box",
             width: "48px",
             height: "48px",
@@ -206,7 +206,7 @@ export default function AiChatPane({ active, onDismiss } : Props) {
             lineHeight: '36px',
           }}>{ x.text !== null ? x.text : <i>{ "Sorry, didn't quite catch that" }</i> }</div></div>) }
           {
-            isProcessing ? <div style={{ display: "contents" }}><div style={{ 
+            isProcessing ? <div style={{ display: "contents" }}><div style={{
               boxSizing: "border-box",
               width: "48px",
               height: "48px",
@@ -221,7 +221,7 @@ export default function AiChatPane({ active, onDismiss } : Props) {
               padding: '6px 18px',
               fontSize: '13pt',
               lineHeight: '36px',
-            }}><i>Processing...</i></div></div> : <></> 
+            }}><i>Processing...</i></div></div> : <></>
           }
         </div>
 
@@ -230,8 +230,8 @@ export default function AiChatPane({ active, onDismiss } : Props) {
         }
         <div style={{ flex: "1 0 auto" }}>&nbsp;</div>
 
-        { 
-          //input bar 
+        {
+          //input bar
         }
         <div style={{
           flex: "0 0 auto",
@@ -273,8 +273,8 @@ export default function AiChatPane({ active, onDismiss } : Props) {
             borderRadius: '24px',
             boxSizing: 'border-box',
           }}>▶</button>
-          <button 
-            onClick={ () => { if (!recording && !isProcessing) { setRecording(true); recordAudio(addUserMessage, () => { setRecording(false); setIsProcessing(true); }); } } } 
+          <button
+            onClick={ () => { if (!recording && !isProcessing) { setRecording(true); recordAudio(addUserMessage, () => { setRecording(false); setIsProcessing(true); }); } } }
             disabled={ recording || isProcessing }
             style={{
               flex: "0 0 auto",

@@ -1,29 +1,36 @@
 'use client';
-
-import React, {useState} from 'react';
-import {DndContext, DragOverEvent} from '@dnd-kit/core';
-
-import {Droppable} from './dropable';
-import {Draggable} from './draggable';
+import React, { useState } from 'react';
+import { DndContext } from '@dnd-kit/core';
+import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { Draggable } from './draggable';
+import Approvals from './widgets/approvals';
+import Exchange from './widgets/exchange';
 
 export default function DndArea() {
-  const [isDropped, setIsDropped] = useState(false);
-  const draggableMarkup = (
-    <Draggable>Drag me</Draggable>
-  );
+  const [items, setItems] = useState(['approvals', 'exchange']);
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      {!isDropped ? draggableMarkup : null}
-      <Droppable>
-        {isDropped ? draggableMarkup : 'Drop here'}
-      </Droppable>
+      <SortableContext items={items} strategy={verticalListSortingStrategy}>
+        <div className="grid grid-cols-3 gap-2">
+          {items.map((id) => (
+            <Draggable key={id} id={id}>
+              {id === 'approvals' ? <Approvals /> : <Exchange />}
+            </Draggable>
+          ))}
+        </div>
+      </SortableContext>
     </DndContext>
   );
-
-  function handleDragEnd(event: DragOverEvent) {
-    if (event.over && event.over.id === 'droppable') {
-      setIsDropped(true);
-    }
-  }
 }
