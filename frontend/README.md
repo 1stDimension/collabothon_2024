@@ -41,11 +41,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 To do:
 [x] Add Header
-[] Add Ai tools
-[] Add DnD Area
-[] Create components:
+[x] Add Ai tools
+[x] Add DnD Area
+[x] Create components:
     [x] Date
-    [] Approvals
-    [] Lawns
-    [] Accounts
-    [] Cards
+    [x] Approvals
+    [x] Exchange
+    [x] Lawns
+    [x] Accounts
+    [x] Cards

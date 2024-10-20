@@ -28,11 +28,10 @@ export function AiPoweredSearchButton() {
         location="eu"
         triggerId="searchWidgetTrigger">
       </gen-search-widget>
-      <div className="w-[420px] h-[48px] bg-[#FFFFFF] flex items-center justify-between border border-[#E0E6E9] text-[#002F3F] font-bold px-4 py-2 rounded-[8px] cursor-pointer hover:bg-[#F5F7F9]">
+      <div id="searchWidgetTrigger" className="w-[420px] h-[48px] bg-[#FFFFFF] flex items-center justify-between border border-[#E0E6E9] text-[#002F3F] font-bold px-4 py-2 rounded-[8px] cursor-pointer hover:bg-[#F5F7F9]">
         <div className="flex items-center gap-2">
           <Image src="/icon-search.svg" alt="" width={15} height={15} />
           <span
-            id="searchWidgetTrigger"
             className="outline-none"
           >
             AI powered search...
